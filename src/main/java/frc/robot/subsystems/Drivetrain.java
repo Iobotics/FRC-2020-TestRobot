@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -31,6 +30,12 @@ public class Drivetrain extends SubsystemBase {
   }
   
   public void setTank(double leftPower, double rightPower){
+    if (leftPower <= 0.3 && leftPower >= -0.3) {
+      leftPower = 0;
+    }
+    if (rightPower <= 0.3 && rightPower >= -0.3) {
+      rightPower = 0;
+    }
     leftMaster.set(ControlMode.PercentOutput, leftPower);
     rightMaster.set(ControlMode.PercentOutput, rightPower);
   }
