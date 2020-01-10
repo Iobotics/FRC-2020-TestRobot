@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.MotorConstants;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -21,10 +22,10 @@ public class Drivetrain extends SubsystemBase {
   private TalonSRX rightSlave;
 
   public Drivetrain() {
-    leftMaster = new TalonSRX(Constants.kLeftMaster);
-    rightMaster =  new TalonSRX(Constants.kRightMaster);
-    leftSlave = new TalonSRX(Constants.kLeftSlave);
-    rightSlave = new TalonSRX(Constants.kRightSlave);
+    leftMaster = new TalonSRX(MotorConstants.kLeftMaster);
+    rightMaster =  new TalonSRX(MotorConstants.kRightMaster);
+    leftSlave = new TalonSRX(MotorConstants.kLeftSlave);
+    rightSlave = new TalonSRX(MotorConstants.kRightSlave);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
   }
