@@ -22,6 +22,7 @@ public final class Constants {
     public static final int kRightSlave = 3;
 
     public static final int kControlPanelSpinner = 6;
+    public static final int kIntake = 7;
 
     public static final int kJoystick1 = 0;
     public static final int kJoystick2 = 1;

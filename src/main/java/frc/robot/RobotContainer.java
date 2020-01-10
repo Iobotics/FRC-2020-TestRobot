@@ -14,8 +14,10 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -27,6 +29,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain drivetrain = new Drivetrain();
   private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
+  private final Intake intake = new Intake();
 
   private final Joystick joystick1 = new Joystick(Constants.kJoystick1);
   private final Joystick joystick2 = new Joystick(Constants.kJoystick2);
@@ -41,6 +44,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
     controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
+
   }
 
   /**
@@ -50,6 +54,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(joystick1, 1).whenPressed(new RunCommand(() -> intake.setIntake(0.25), intake));
   }
 
 
