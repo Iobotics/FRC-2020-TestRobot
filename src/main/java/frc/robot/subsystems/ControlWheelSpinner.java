@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.MotorConstants;
 
 public class ControlWheelSpinner extends SubsystemBase {
   /**
@@ -21,7 +22,7 @@ public class ControlWheelSpinner extends SubsystemBase {
 
   private CANSparkMax ControlWheelSpinner;
   public ControlWheelSpinner() {
-    ControlWheelSpinner = new CANSparkMax(Constants.kControlPanelSpinner, MotorType.kBrushless);
+    ControlWheelSpinner = new CANSparkMax(MotorConstants.kControlPanelSpinner, MotorType.kBrushless);
   }
 
   public void spin (double speed) {
