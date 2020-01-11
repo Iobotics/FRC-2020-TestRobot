@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.RobotMap;
 
 public class Intake extends SubsystemBase {
   /**
@@ -20,7 +21,7 @@ public class Intake extends SubsystemBase {
   private final TalonSRX intake;
 
   public Intake() {
-    intake = new TalonSRX(Constants.kIntake);
+    intake = new TalonSRX(RobotMap.kIntake);
   }
 
   public void setIntake(double power){
