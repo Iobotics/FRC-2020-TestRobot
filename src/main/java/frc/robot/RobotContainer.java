@@ -28,12 +28,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+<<<<<<< Updated upstream
   private final Drivetrain drivetrain = new Drivetrain();
   private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
+=======
+  public final Drivetrain drivetrain = new Drivetrain();
+  private final Limelight limelight = new Limelight();
+  private final Joystick joystick1 = new Joystick(Constants.kJoystick1);
+  private final Joystick joystick2 = new Joystick(Constants.kJoystick2);
+>>>>>>> Stashed changes
 
 
   /**

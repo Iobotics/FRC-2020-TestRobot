@@ -22,13 +22,33 @@ public class Drivetrain extends SubsystemBase {
   private TalonSRX rightSlave;
 
   public Drivetrain() {
+<<<<<<< Updated upstream
     leftMaster = new TalonSRX(MotorConstants.kLeftMaster);
     rightMaster =  new TalonSRX(MotorConstants.kRightMaster);
     leftSlave = new TalonSRX(MotorConstants.kLeftSlave);
     rightSlave = new TalonSRX(MotorConstants.kRightSlave);
+=======
+    leftMaster = new TalonSRX(Constants.kLeftMaster);
+    rightMaster =  new TalonSRX(Constants.kRightMaster);
+    leftSlave = new TalonSRX(Constants.kLeftSlave);
+    rightSlave = new TalonSRX(Constants.kRightSlave);
+    rightMaster.setInverted(true);
+    rightSlave.setInverted(true);
+>>>>>>> Stashed changes
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
+
+    leftMaster.config_kP(0, Constants.kP);
+    leftMaster.config_kI(0, Constants.kI);
+    leftMaster.config_kD(0, Constants.kD);
   }
+
+  public void config () {
+    rightMaster.setInverted(true);
+    rightSlave.setInverted(true);
+    leftSlave.follow(leftMaster);
+    rightSlave.follow(rightMaster);
+  } 
   
   public void setTank(double leftPower, double rightPower){
     if (leftPower <= 0.3 && leftPower >= -0.3) {
@@ -39,6 +59,22 @@ public class Drivetrain extends SubsystemBase {
     }
     leftMaster.set(ControlMode.PercentOutput, leftPower);
     rightMaster.set(ControlMode.PercentOutput, rightPower);
+  }
+
+  public void motionMagic (double distance, double speed) {
+
+    double rotations = distance/(Constants.kGearRatio*Constants.kWheelDiameter*Math.PI);
+    double targetPos = rotations*speed*4096;
+
+    rightSlave.follow(leftMaster);
+    rightMaster.follow(leftMaster);
+    leftMaster.setSelectedSensorPosition(0);
+    leftMaster.set(ControlMode.MotionMagic, targetPos);
+
+    while (!leftMaster.isMotionProfileFinished()) {
+
+    }
+    config();
   }
 
   @Override
