@@ -16,14 +16,18 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final int kLeftMaster = 1;
-    public static final int kRightMaster = 4;
-    public static final int kLeftSlave = 2;
-    public static final int kRightSlave = 3;
+    public static final class RobotMap{
+        public static final int kLeftMaster = 1;
+        public static final int kRightMaster = 4;
+        public static final int kLeftSlave = 2;
+        public static final int kRightSlave = 3;
 
-    public static final int kControlPanelSpinner = 6;
-    public static final int kIntake = 7;
+        public static final int kControlPanelSpinner = 6;
+        public static final int kIntake = 7;
+    }
 
-    public static final int kJoystick1 = 0;
-    public static final int kJoystick2 = 1;
+    public static final class OIConstants{
+        public static final int kJoystick1 = 0;
+        public static final int kJoystick2 = 1;
+    }
 }
