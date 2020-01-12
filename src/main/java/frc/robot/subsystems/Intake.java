@@ -20,14 +20,14 @@ public class Intake extends SubsystemBase {
   /**
    * Creates a new Intake.
   */
-  private final CANSparkMax intake;
+  private final TalonSRX intake;
 
   public Intake() {
-    intake = new CANSparkMax(RobotMap.kIntake, MotorType.kBrushless);
+    intake = new TalonSRX(RobotMap.kIntake);
   }
 
   public void setIntake(double power){
-    intake.set(power);
+    intake.set(ControlMode.PercentOutput, power);
   }
 
   @Override
