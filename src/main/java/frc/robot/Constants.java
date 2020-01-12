@@ -22,8 +22,8 @@ public final class Constants {
         public static final int kLeftSlave = 2;
         public static final int kRightSlave = 3;
 
-        public static final int kControlPanelSpinner = 6;
-        public static final int kIntake = 7;
+        public static final int kControlPanelSpinner = 7;
+        public static final int kIntake = 6;
     }
 
     public static final class OIConstants{

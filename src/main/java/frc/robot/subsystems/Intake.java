@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,14 +20,14 @@ public class Intake extends SubsystemBase {
   /**
    * Creates a new Intake.
   */
-  private final TalonSRX intake;
+  private final CANSparkMax intake;
 
   public Intake() {
-    intake = new TalonSRX(RobotMap.kIntake);
+    intake = new CANSparkMax(RobotMap.kIntake, MotorType.kBrushless);
   }
 
   public void setIntake(double power){
-    intake.set(ControlMode.PercentOutput, power);
+    intake.set(power);
   }
 
   @Override

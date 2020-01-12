@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain drivetrain = new Drivetrain();
-  private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
+  //private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
@@ -44,7 +44,7 @@ public class RobotContainer {
     configureButtonBindings();
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
-    controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
+    //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
   }
 
   /**
@@ -54,7 +54,10 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick1, 1).whileHeld(new StartEndCommand(() -> intake.setIntake(-0.4), () -> intake.setIntake(0), intake));
+    new JoystickButton(joystick1, 1).whileHeld(
+      new StartEndCommand(
+        () -> intake.setIntake((joystick1.getZ() + 1)/2),
+        () -> intake.setIntake(0), intake));
   }
 
 
@@ -65,7 +68,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    new RunCommand(() -> controlWheelSpinner.spinByEncoder(5), controlWheelSpinner);
+    //new RunCommand(() -> controlWheelSpinner.spinByEncoder(5), controlWheelSpinner);
     return null;
   }
 }
