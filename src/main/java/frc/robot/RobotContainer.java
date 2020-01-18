@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain drivetrain = new Drivetrain();
-  //private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
+  private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
@@ -54,6 +54,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(joystick1, OIConstants.spinWheel).whileHeld(
+      new StartEndCommand(
+        () -> controlWheelSpinner.spin(.5), 
+        () -> controlWheelSpinner.spin(0), controlWheelSpinner));
+        
     new JoystickButton(joystick1, 1).whileHeld(
       new StartEndCommand(
         () -> intake.setIntake((joystick1.getZ() + 1)/2),
