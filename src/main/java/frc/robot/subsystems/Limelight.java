@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -82,7 +83,10 @@ public class Limelight extends SubsystemBase {
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
     area = ta.getDouble(0.0);*/
-    SmartDashboard.putNumber("LimelightX", this.getTX());
+    table.addEntryListener("X", (table, key, entry, value, flags) ->{
+      SmartDashboard.putNumber("LimelightX", this.getTX());
+    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+    
     SmartDashboard.putNumber("LimeilightY",this.getTY());
     SmartDashboard.putNumber("LimeLightArea", this.getDistance());
   //  SmartDashboard.putNumber("GetPipe", getpipe);
