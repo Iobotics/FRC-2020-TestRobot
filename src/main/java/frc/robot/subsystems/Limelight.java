@@ -40,26 +40,16 @@ public class Limelight extends SubsystemBase {
 
 
   public Limelight()  {
-     
+    //NetworkTable.setClientmode();
+    //NetworkTable.setTeam(2439);
+
+    table = NetworkTableInstance.getDefault().getTable("limelight");
+    table.getInstance().startClientTeam(2439);
+    tx = table.getEntry("tx");
+    ty = table.getEntry("ty");
+    ta = table.getEntry("ta");
+    tv = table.getEntry("tv");
   }
-
-  public void printValues(){
-
-    
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  tx = table.getEntry("tx");
-  ty = table.getEntry("ty");
-  ta = table.getEntry("ta");
-  tv = table.getEntry("tv");
-
-    x = tx.getDouble(0.0);
-    y = ty.getDouble(0.0);
-    area = ta.getDouble(0.0);
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimeilightY", y);
-    SmartDashboard.putNumber("LimeLightArea", area);
-  }
-
   public boolean isTargetDetected()
   {
     if(tv.getDouble(0.0) == 1)
@@ -84,6 +74,29 @@ public class Limelight extends SubsystemBase {
     y = ty.getDouble(0.0);
     return y;
   }
+
+  public void printValues(){
+
+    
+    /*table = NetworkTableInstance.getDefault().getTable("limelight");
+    tx = table.getEntry("tx");
+    ty = table.getEntry("ty");
+    ta = table.getEntry("ta");
+    tv = table.getEntry("tv");
+
+    double getpipe = table.getEntry("getpipe").getDouble(10000);
+
+    x = tx.getDouble(0.0);
+    y = ty.getDouble(0.0);
+    area = ta.getDouble(0.0);*/
+    SmartDashboard.putNumber("LimelightX", this.getTX());
+    SmartDashboard.putNumber("LimeilightY",this.getTY());
+    SmartDashboard.putNumber("LimeLightArea", this.getDistance());
+  //  SmartDashboard.putNumber("GetPipe", getpipe);
+    
+  }
+
+  
 
   @Override
   public void periodic() {

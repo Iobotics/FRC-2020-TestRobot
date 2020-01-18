@@ -13,25 +13,24 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Drivetrain extends SubsystemBase {
+public class Shooter extends SubsystemBase {
+  /**
+   * Creates a new Shooter.
+   */
+  private TalonSRX leftShooter;
+  private TalonSRX rightShooter;
 
-  private TalonSRX leftMaster;
-  private TalonSRX rightMaster;
-  private TalonSRX leftSlave;
-  private TalonSRX rightSlave;
+  public Shooter() {
+    leftShooter = new TalonSRX(Constants.kLeftShooter);
+    rightShooter = new TalonSRX(Constants.kRightShooter);
+    rightShooter.follow(leftShooter);
 
-  public Drivetrain() {
-    leftMaster = new TalonSRX(Constants.kLeftMaster);
-    rightMaster =  new TalonSRX(Constants.kRightMaster);
-    leftSlave = new TalonSRX(Constants.kLeftSlave);
-    rightSlave = new TalonSRX(Constants.kRightSlave);
-    leftSlave.follow(leftMaster);
-    rightSlave.follow(rightMaster);
+    leftShooter.config_kF(0, Constants.kFShooter);
+    leftShooter.config_kP(0, Constants.kPShooter);
   }
-  
-  public void setTank(double leftPower, double rightPower){
-    leftMaster.set(ControlMode.PercentOutput, leftPower);
-    rightMaster.set(ControlMode.PercentOutput, rightPower);
+
+  public void setRPM (double RPM) {
+    leftShooter.set(ControlMode.Velocity, 2000);
   }
 
   @Override

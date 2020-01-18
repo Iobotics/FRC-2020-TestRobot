@@ -23,4 +23,12 @@ public final class Constants {
 
     public static final int kJoystick1 = 0;
     public static final int kJoystick2 = 1;
+
+    public static final int kControlWheelSpinner = 6;
+
+    public static final int kLeftShooter = 0;
+    public static final int kRightShooter = 0;
+
+    public static final float kFShooter = 0f;
+    public static final float kPShooter = 0.2f;
 }
