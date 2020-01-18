@@ -33,22 +33,15 @@ public class Limelight extends SubsystemBase {
   private  double y = 0;
   private  double area = 0;
 
-
-
-
-
-
-
   public Limelight()  {
-    //NetworkTable.setClientmode();
-    //NetworkTable.setTeam(2439);
-
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    table.getInstance().startClientTeam(2439);
+    inst = NetworkTableInstance.getDefault();
+    table = inst.getTable("limelight");
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
     tv = table.getEntry("tv");
+    inst.startClientTeam(2439);
+    inst.startDSClient();
   }
   public boolean isTargetDetected()
   {
