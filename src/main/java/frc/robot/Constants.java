@@ -24,6 +24,9 @@ public final class Constants {
 
         public static final int kControlPanelSpinner = 6;
         public static final int kIntake = 7;
+        public static final int kLeftShooter = 8;
+        public static final int kRightShooter = 9;
+
     }
 
     public static final class OIConstants{
@@ -31,5 +34,6 @@ public final class Constants {
         public static final int kJoystick2 = 1;
 
         public static final int spinWheel = 2;
+        public static final int kXboxController = 2;
     }
 }
