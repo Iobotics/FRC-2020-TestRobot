@@ -31,4 +31,12 @@ public final class Constants {
         public static final int kJoystick2 = 1;
 
     }
+
+    public static final double kGearRatio = 10.71;
+    //in meters
+    public static final double kWheelDiameter = 0.2032;
+
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
 }
