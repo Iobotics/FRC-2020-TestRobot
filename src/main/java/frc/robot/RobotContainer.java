@@ -7,10 +7,13 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Auto;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
@@ -31,6 +34,7 @@ public class RobotContainer {
   private final Drivetrain drivetrain = new Drivetrain();
   private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
+  private final AHRS gyro = new AHRS();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
@@ -66,7 +70,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    new RunCommand(() -> controlWheelSpinner.spinByEncoder(5), controlWheelSpinner);
-    return null;
+    return new Auto(gyro, 90.0);
   }
 }
