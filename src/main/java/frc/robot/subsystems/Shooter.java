@@ -24,13 +24,12 @@ public class Shooter extends SubsystemBase {
 
     leftShooter = new TalonSRX(Constants.RobotMap.kLeftShooter);
     rightShooter = new TalonSRX(Constants.RobotMap.kRightShooter);
-
+    rightShooter.follow(leftShooter);
   }
 
   public void setPower(double power) {
     
-    leftShooter.set(ControlMode.Velocity, power);
-    rightShooter.set(ControlMode.Velocity, power);
+    leftShooter.set(ControlMode.PercentOutput, power);
 
   }
 

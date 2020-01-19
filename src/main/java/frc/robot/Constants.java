@@ -29,6 +29,11 @@ public final class Constants {
 
     }
 
+    public static final class SensorMap{
+        public static final int kColorWheelLeft = 0;
+        public static final int kColorWheelRight = 1;
+    }
+
     public static final class OIConstants{
         public static final int kJoystick1 = 0;
         public static final int kJoystick2 = 1;
