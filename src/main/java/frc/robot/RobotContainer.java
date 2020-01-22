@@ -10,10 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,6 +45,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    shooter.setDefaultCommand(
+      new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
@@ -67,10 +69,10 @@ public class RobotContainer {
         () -> intake.setIntake((joystick1.getZ() + 1)/2),
         () -> intake.setIntake(0), intake));
 
-    new JoystickButton(xboxController, 7).whileHeld(
-      new StartEndCommand(
-        () -> shooter.setPower(Math.abs(xboxController.getY())),
-        () -> shooter.setPower(0), shooter));
+    new JoystickButton(xboxController, 6).whileHeld(
+      new RunCommand(
+        () -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(SmartDashboard.getNumber("Shooter Output", 0))), shooter));
+
   }
 
 

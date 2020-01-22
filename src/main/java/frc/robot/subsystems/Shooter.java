@@ -9,7 +9,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.SparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -20,19 +22,29 @@ public class Shooter extends SubsystemBase {
 
   private final TalonSRX leftShooter;
   private final TalonSRX rightShooter;
+  private final SparkMax articulatingHood;
+
   public Shooter() {
 
     leftShooter = new TalonSRX(Constants.RobotMap.kLeftShooter);
     rightShooter = new TalonSRX(Constants.RobotMap.kRightShooter);
+    articulatingHood = new SparkMax(Constants.RobotMap.kArticulatingHood);
 
   }
 
-  public void setPower(double power) {
-    
-    leftShooter.set(ControlMode.Velocity, power);
-    rightShooter.set(ControlMode.Velocity, power);
-
+  public int setPower(double power) {
+    leftShooter.set(ControlMode.PercentOutput, -power);
+    rightShooter.set(ControlMode.PercentOutput, power);
+    int sensorVelocity = rightShooter.getSelectedSensorVelocity();
+    return sensorVelocity * 600 /8192;
   }
+
+  public int getRPM(){
+    return rightShooter.getSelectedSensorVelocity() * 600 / 2048;
+  }
+
+  
+  
 
   @Override
   public void periodic() {
