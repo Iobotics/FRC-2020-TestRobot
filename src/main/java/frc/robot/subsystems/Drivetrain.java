@@ -26,8 +26,8 @@ public class Drivetrain extends SubsystemBase {
     rightMaster =  new TalonSRX(MotorConstants.kRightMaster);
     leftSlave = new TalonSRX(MotorConstants.kLeftSlave);
     rightSlave = new TalonSRX(MotorConstants.kRightSlave);
-    rightMaster.setInverted(false);
-    rightSlave.setInverted(false);
+    rightMaster.setInverted(true);
+    rightSlave.setInverted(true);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
 
@@ -44,7 +44,12 @@ public class Drivetrain extends SubsystemBase {
   } 
   
   public void setTank(double leftPower, double rightPower){
- 
+    if (leftPower <= 0.3 && leftPower >= -0.3) {
+      leftPower = 0;
+    }
+    if (rightPower <= 0.3 && rightPower >= -0.3) {
+      rightPower = 0;
+    }
     leftMaster.set(ControlMode.PercentOutput, leftPower);
     rightMaster.set(ControlMode.PercentOutput, rightPower);
   }
@@ -65,6 +70,11 @@ public class Drivetrain extends SubsystemBase {
     config();
   }
 
+  public boolean getIsFinished(){
+    return leftMaster.isMotionProfileFinished();
+  }
+
+ 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
