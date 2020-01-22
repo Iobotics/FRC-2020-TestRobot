@@ -28,6 +28,7 @@ public final class Constants {
         public static final int kIntake = 7;
         public static final int kLeftShooter = 8;
         public static final int kRightShooter = 9;
+        public static final int kLift = 10;
 
     }
 

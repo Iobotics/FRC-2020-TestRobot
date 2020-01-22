@@ -17,6 +17,7 @@ import frc.robot.commands.Auto;
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -35,6 +36,7 @@ public class RobotContainer {
   private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
+  private final Lift lift = new Lift();
   private final AHRS gyro = new AHRS();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
@@ -54,6 +56,7 @@ public class RobotContainer {
     configureButtonBindings();
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
+
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
   }
 
@@ -74,6 +77,11 @@ public class RobotContainer {
         () -> intake.setIntake((joystick1.getZ() + 1)/2),
         () -> intake.setIntake(0), intake));
 
+    new JoystickButton(joystick2, 1).whileHeld(
+      new StartEndCommand(
+        () -> lift.setLift((joystick2.getZ() + 1)/2),
+        () -> lift.setLift(0), lift));
+        
     new JoystickButton(xboxController, 7).whileHeld(
       new StartEndCommand(
         () -> shooter.setPower(Math.abs(xboxController.getY())),
