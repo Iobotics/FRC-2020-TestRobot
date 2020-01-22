@@ -26,6 +26,8 @@ public final class Constants {
 
     public static final int kControlWheelSpinner = 6;
 
+    public static final int limelightServo = 4; //change when you know the PWM
+
     public static final int kLeftShooter = 0;
     public static final int kRightShooter = 0;
 

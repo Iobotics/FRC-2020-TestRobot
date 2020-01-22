@@ -83,13 +83,11 @@ public class Limelight extends SubsystemBase {
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
     area = ta.getDouble(0.0);*/
-    table.addEntryListener("X", (table, key, entry, value, flags) ->{
-      SmartDashboard.putNumber("LimelightX", this.getTX());
-    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
     
+    SmartDashboard.putNumber("LimelightX", this.getTX());
     SmartDashboard.putNumber("LimeilightY",this.getTY());
     SmartDashboard.putNumber("LimeLightArea", this.getDistance());
-  //  SmartDashboard.putNumber("GetPipe", getpipe);
+  //  SmartDashboard.putNumber("GetPipe", getpipe);g
     
   }
 
