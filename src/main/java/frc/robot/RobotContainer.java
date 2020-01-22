@@ -39,6 +39,10 @@ public class RobotContainer {
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
 
+  public double getGyro(){
+    return gyro.getAngle();
+  }
+
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
