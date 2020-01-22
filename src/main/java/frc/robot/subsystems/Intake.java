@@ -13,8 +13,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+<<<<<<< HEAD
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMap;
+=======
+import frc.robot.Constants.MotorConstants;
+>>>>>>> auto
 
 public class Intake extends SubsystemBase {
   /**
