@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Auto;
+import frc.robot.commands.AutoDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
@@ -74,6 +75,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new Auto(gyro, 90.0, drivetrain);
+    return new AutoDrive(drivetrain, 10);
   }
 }
