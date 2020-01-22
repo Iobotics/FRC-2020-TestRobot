@@ -23,15 +23,17 @@ public class Auto extends PIDCommand {
   public Auto(AHRS gyro, double angle, Drivetrain drive) {
     super(
         // The controller that the command will use
-        new PIDController(0.1, 0, 0),
+        new PIDController(0.027, 0, 0),
         // This should return the measurement
         gyro::getAngle,
         // This should return the setpoint (can also be a constant)
         () -> angle,
         // This uses the output
         output -> {
-          drive.setTank(output, -output);
+          drive.setTank(output, output);
         });
+
+        addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
