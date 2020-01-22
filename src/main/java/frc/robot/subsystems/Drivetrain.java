@@ -22,19 +22,12 @@ public class Drivetrain extends SubsystemBase {
   private TalonSRX rightSlave;
 
   public Drivetrain() {
-<<<<<<< HEAD
     leftMaster = new TalonSRX(RobotMap.kLeftMaster);
     rightMaster =  new TalonSRX(RobotMap.kRightMaster);
     leftSlave = new TalonSRX(RobotMap.kLeftSlave);
     rightSlave = new TalonSRX(RobotMap.kRightSlave);
-=======
-    leftMaster = new TalonSRX(MotorConstants.kLeftMaster);
-    rightMaster =  new TalonSRX(MotorConstants.kRightMaster);
-    leftSlave = new TalonSRX(MotorConstants.kLeftSlave);
-    rightSlave = new TalonSRX(MotorConstants.kRightSlave);
     rightMaster.setInverted(false);
     rightSlave.setInverted(false);
->>>>>>> auto
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
 

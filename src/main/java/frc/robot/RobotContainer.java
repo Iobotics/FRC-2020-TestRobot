@@ -13,11 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
-<<<<<<< HEAD
-=======
 import frc.robot.commands.Auto;
-import frc.robot.commands.ExampleCommand;
->>>>>>> auto
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -38,23 +34,17 @@ public class RobotContainer {
   private final Drivetrain drivetrain = new Drivetrain();
   private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
-<<<<<<< HEAD
   private final Shooter shooter = new Shooter();
-=======
   private final AHRS gyro = new AHRS();
->>>>>>> auto
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
 
-<<<<<<< HEAD
   private final XboxController xboxController = new XboxController(OIConstants.kXboxController);
-=======
   public double getGyro(){
     return gyro.getAngle();
   }
 
->>>>>>> auto
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -98,11 +88,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-<<<<<<< HEAD
-    //new RunCommand(() -> controlWheelSpinner.spinByEncoder(5), controlWheelSpinner);
-    return null;
-=======
     return new Auto(gyro, 90.0, drivetrain);
->>>>>>> auto
   }
 }
