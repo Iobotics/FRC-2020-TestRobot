@@ -79,7 +79,7 @@ public class RobotContainer {
 
     new JoystickButton(joystick2, 1).whileHeld(
       new StartEndCommand(
-        () -> lift.setLift((joystick2.getZ() + 1)/2),
+        () -> lift.setLift(joystick2.getZ()),
         () -> lift.setLift(0), lift));
         
     new JoystickButton(xboxController, 7).whileHeld(
