@@ -18,7 +18,9 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightServo;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -64,7 +66,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(joystick1, 1).whenPressed(
-    new SetLimelightPosition(limelight, limelightServo));
+    //new SetLimelightPosition(limelight, limelightServo));
+    new InstantCommand(limelightServo::toggleServo, limelightServo));
+    
 
   }
 
