@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,11 +26,24 @@ public class Shooter extends SubsystemBase {
     leftShooter = new TalonSRX(Constants.RobotMap.kLeftShooter);
     rightShooter = new TalonSRX(Constants.RobotMap.kRightShooter);
     rightShooter.follow(leftShooter);
+    
+    leftShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
+   
+    leftShooter.config_kF(0,0,0);
+    leftShooter.config_kP(0,0,0);
+    leftShooter.config_kI(0,0,0);
+    leftShooter.config_kD(0,0,0);
+
+  }
+
+  public void setVelocity(double velocity) {
+    leftShooter.set(ControlMode.Velocity, velocity);
   }
 
   public void setPower(double power) {
     
     leftShooter.set(ControlMode.PercentOutput, power);
+
 
   }
 
