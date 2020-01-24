@@ -10,7 +10,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.SparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,6 +28,10 @@ public class Shooter extends SubsystemBase {
 
   private final TalonSRX leftShooter;
   private final TalonSRX rightShooter;
+  private final CANSparkMax articulatingHood;
+  private final CANPIDController articulatingHoodController;
+  private final CANEncoder articulatingHoodEncoder;
+
   public Shooter() {
 
     leftShooter = new TalonSRX(Constants.RobotMap.kLeftShooter);
@@ -38,13 +49,37 @@ public class Shooter extends SubsystemBase {
 
   public void setVelocity(double velocity) {
     leftShooter.set(ControlMode.Velocity, velocity);
+
+    articulatingHood = new CANSparkMax(Constants.RobotMap.kArticulatingHood, MotorType.kBrushless);
+    articulatingHoodController = new CANPIDController(articulatingHood);
+    articulatingHoodEncoder = new CANEncoder(articulatingHood);
+
+    leftShooter.setInverted(true);
+
   }
 
-  public void setPower(double power) {
+  public int setPower(double power) {
     
-    leftShooter.set(ControlMode.PercentOutput, power);
+    rightShooter.set(ControlMode.PercentOutput, power);
+    leftShooter.set(ControlMode.Follower, rightShooter.getDeviceID());
+    int sensorVelocity = rightShooter.getSelectedSensorVelocity();
+    return sensorVelocity * 600 /8192;
+  }
 
+  public int getRPM(){
+    return rightShooter.getSelectedSensorVelocity() * 600 / 2048;
+  }
 
+  public void setHoodPosition(double position){
+    
+    articulatingHoodController.setSmartMotionMaxAccel(15, 0);
+    articulatingHoodController.setSmartMotionMaxVelocity(60, 0);
+
+    articulatingHoodController.setReference(position, ControlType.kSmartMotion);
+  }
+
+  public double getHoodPosition(){
+    return articulatingHoodEncoder.getPosition();
   }
 
   @Override
