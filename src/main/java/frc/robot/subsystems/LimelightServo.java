@@ -26,6 +26,14 @@ public class LimelightServo extends SubsystemBase {
     return servo.get();
   }
 
+  public void toggleServo(){
+    if(this.getServoValue() == 0.0){
+      servo.set(1.0);
+    }else if(this.getServoValue() == 1.0){
+      servo.set(0.0);
+    }
+  }
+
   public void setLimelight(double position){
     servo.set(position);
   }
