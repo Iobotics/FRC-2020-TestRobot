@@ -39,12 +39,18 @@ public final class Constants {
     }
 
     public static final class OIConstants{
+        //Joysticks
         public static final int kJoystick1 = 0;
         public static final int kJoystick2 = 1;
         public static final int kXboxController = 2;
 
+        //Joystick 1
         public static final int kRunIntake = 1;
         public static final int kSpinWheel = 2;
+        public static final int kHoodPosition = 9;
+
+        //Joystick 2
+        public static final int kSetLift = 1;
 
         //Xbox controller
         public static final int kRunShooter = 6;

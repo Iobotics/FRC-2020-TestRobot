@@ -84,10 +84,14 @@ public class RobotContainer {
       new RunCommand(
         () -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(SmartDashboard.getNumber("Shooter Output", 0))), shooter));
 
-    new JoystickButton(joystick2, 1).whileHeld(
+    new JoystickButton(joystick2, OIConstants.kSetLift).whileHeld(
       new StartEndCommand(
         () -> lift.setLift(joystick2.getZ()),
         () -> lift.setLift(0), lift));
+
+    new JoystickButton(joystick1, OIConstants.kHoodPosition).whileHeld(
+      new RunCommand(
+        () -> SmartDashboard.putNumber("Hood Position", shooter.getHoodPosition()), shooter));
         
   }
 
