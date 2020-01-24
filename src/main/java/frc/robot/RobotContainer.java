@@ -59,17 +59,17 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick1, OIConstants.spinWheel).whileHeld(
+    new JoystickButton(joystick1, OIConstants.kSpinWheel).whileHeld(
       new StartEndCommand(
         () -> controlWheelSpinner.spin(.5), 
         () -> controlWheelSpinner.spin(0), controlWheelSpinner));
         
-    new JoystickButton(joystick1, 1).whileHeld(
+    new JoystickButton(joystick1, OIConstants.kRunIntake).whileHeld(
       new StartEndCommand(
         () -> intake.setIntake((joystick1.getZ() + 1)/2),
         () -> intake.setIntake(0), intake));
 
-    new JoystickButton(xboxController, 6).whileHeld(
+    new JoystickButton(xboxController, OIConstants.kRunShooter).whileHeld(
       new RunCommand(
         () -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(SmartDashboard.getNumber("Shooter Output", 0))), shooter));
 
