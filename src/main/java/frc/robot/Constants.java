@@ -16,7 +16,9 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
     public static final class RobotMap{
+        
         public static final int kLeftMaster = 1;
         public static final int kRightMaster = 4;
         public static final int kLeftSlave = 2;
@@ -27,6 +29,13 @@ public final class Constants {
         public static final int kLeftShooter = 7;
         public static final int kRightShooter = 10;
         public static final int kArticulatingHood = 5;
+        public static final int kLift = 10;
+
+    }
+
+    public static final class SensorMap{
+        public static final int kColorWheelLeft = 0;
+        public static final int kColorWheelRight = 1;
     }
 
     public static final class OIConstants{
@@ -40,4 +49,12 @@ public final class Constants {
         //Xbox controller
         public static final int kRunShooter = 6;
     }
+
+    public static final double kGearRatio = 10.71;
+    //in meters
+    public static final double kWheelDiameter = 0.2032;
+
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
 }

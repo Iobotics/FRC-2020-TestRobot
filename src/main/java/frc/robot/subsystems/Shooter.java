@@ -40,11 +40,14 @@ public class Shooter extends SubsystemBase {
     articulatingHoodController = new CANPIDController(articulatingHood);
     articulatingHoodEncoder = new CANEncoder(articulatingHood);
 
+    leftShooter.setInverted(true);
+
   }
 
   public int setPower(double power) {
-    leftShooter.set(ControlMode.PercentOutput, -power);
+    
     rightShooter.set(ControlMode.PercentOutput, power);
+    leftShooter.set(ControlMode.Follower, rightShooter.getDeviceID());
     int sensorVelocity = rightShooter.getSelectedSensorVelocity();
     return sensorVelocity * 600 /8192;
   }

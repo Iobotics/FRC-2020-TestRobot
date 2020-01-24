@@ -9,8 +9,10 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMap;
@@ -21,8 +23,21 @@ public class ControlWheelSpinner extends SubsystemBase {
    */
 
   private CANSparkMax ControlWheelSpinner;
+
+  private I2C.Port leftI2CPort;
+  private I2C.Port rightI2CPort;
+
+  private ColorSensorV3 rightSensor;
+  private ColorSensorV3 leftSensor;
+
   public ControlWheelSpinner() {
     ControlWheelSpinner = new CANSparkMax(RobotMap.kControlPanelSpinner, MotorType.kBrushless);
+
+    leftI2CPort = I2C.Port.kOnboard;
+    rightI2CPort = I2C.Port.kMXP;
+
+    rightSensor = new ColorSensorV3(rightI2CPort);
+    leftSensor = new ColorSensorV3(leftI2CPort);
   }
 
   public void spin (double speed) {
@@ -37,6 +52,11 @@ public class ControlWheelSpinner extends SubsystemBase {
       ControlWheelSpinner.set(0.4);
     }
     ControlWheelSpinner.stopMotor();
+  }
+
+  public int[] getColor(){
+    int[] colors = {rightSensor.getBlue(), leftSensor.getBlue()};
+    return colors;
   }
 
   @Override

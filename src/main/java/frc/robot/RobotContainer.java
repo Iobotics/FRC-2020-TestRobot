@@ -7,14 +7,18 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Auto;
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -33,11 +37,17 @@ public class RobotContainer {
   private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
+  private final Lift lift = new Lift();
+  private final AHRS gyro = new AHRS();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
 
   private final XboxController xboxController = new XboxController(OIConstants.kXboxController);
+  public double getGyro(){
+    return gyro.getAngle();
+  }
+
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -49,6 +59,7 @@ public class RobotContainer {
       new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
+
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
   }
 
@@ -73,6 +84,11 @@ public class RobotContainer {
       new RunCommand(
         () -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(SmartDashboard.getNumber("Shooter Output", 0))), shooter));
 
+    new JoystickButton(joystick2, 1).whileHeld(
+      new StartEndCommand(
+        () -> lift.setLift(joystick2.getZ()),
+        () -> lift.setLift(0), lift));
+        
   }
 
 
@@ -83,7 +99,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    //new RunCommand(() -> controlWheelSpinner.spinByEncoder(5), controlWheelSpinner);
-    return null;
+    return new Auto(gyro, 90.0, drivetrain);
   }
 }

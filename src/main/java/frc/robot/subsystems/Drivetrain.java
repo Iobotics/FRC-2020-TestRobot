@@ -26,19 +26,43 @@ public class Drivetrain extends SubsystemBase {
     rightMaster =  new TalonSRX(RobotMap.kRightMaster);
     leftSlave = new TalonSRX(RobotMap.kLeftSlave);
     rightSlave = new TalonSRX(RobotMap.kRightSlave);
+    rightMaster.setInverted(false);
+    rightSlave.setInverted(false);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
+
+    leftMaster.config_kP(0, Constants.kP);
+    leftMaster.config_kI(0, Constants.kI);
+    leftMaster.config_kD(0, Constants.kD);
   }
+
+  public void config () {
+    rightMaster.setInverted(true);
+    rightSlave.setInverted(true);
+    leftSlave.follow(leftMaster);
+    rightSlave.follow(rightMaster);
+  } 
   
   public void setTank(double leftPower, double rightPower){
-    if (leftPower <= 0.3 && leftPower >= -0.3) {
-      leftPower = 0;
-    }
-    if (rightPower <= 0.3 && rightPower >= -0.3) {
-      rightPower = 0;
-    }
+ 
     leftMaster.set(ControlMode.PercentOutput, leftPower);
     rightMaster.set(ControlMode.PercentOutput, rightPower);
+  }
+
+  public void motionMagic (double distance, double speed) {
+
+    double rotations = distance/(Constants.kGearRatio*Constants.kWheelDiameter*Math.PI);
+    double targetPos = rotations*speed*4096;
+
+    rightSlave.follow(leftMaster);
+    rightMaster.follow(leftMaster);
+    leftMaster.setSelectedSensorPosition(0);
+    leftMaster.set(ControlMode.MotionMagic, targetPos);
+
+    while (!leftMaster.isMotionProfileFinished()) {
+
+    }
+    config();
   }
 
   @Override
