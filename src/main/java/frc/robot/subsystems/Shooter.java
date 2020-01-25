@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -33,8 +34,29 @@ public class Shooter extends SubsystemBase {
 
     leftShooter = new TalonSRX(Constants.RobotMap.kLeftShooter);
     rightShooter = new TalonSRX(Constants.RobotMap.kRightShooter);
+<<<<<<< HEAD
 
+=======
+    articulatingHood = new CANSparkMax(Constants.RobotMap.kArticulatingHood, MotorType.kBrushless);
+    articulatingHoodController = new CANPIDController(articulatingHood);
+    articulatingHoodEncoder = new CANEncoder(articulatingHood);
+>>>>>>> 1977870edabf6c453b4e9a6cd07ca72288986cec
 
+    rightShooter.follow(leftShooter);
+    
+    leftShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
+   
+    leftShooter.config_kF(0,0,0);
+    leftShooter.config_kP(0,0,0);
+    leftShooter.config_kI(0,0,0);
+    leftShooter.config_kD(0,0,0);
+
+  }
+
+  public void setVelocity(double velocity) {
+    leftShooter.set(ControlMode.Velocity, velocity);
+
+  
     leftShooter.setInverted(true);
     
 
