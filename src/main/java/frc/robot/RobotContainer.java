@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Auto;
+import frc.robot.subsystems.ArticulatingHood;
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -37,6 +38,7 @@ public class RobotContainer {
   private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
+  private final ArticulatingHood articulatingHood = new ArticulatingHood();
   private final Lift lift = new Lift();
   private final AHRS gyro = new AHRS();
 
@@ -59,7 +61,8 @@ public class RobotContainer {
       new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
-
+    articulatingHood.setDefaultCommand(
+      new RunCommand(() -> articulatingHood.setPower(0), articulatingHood));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
   }
 
@@ -88,11 +91,11 @@ public class RobotContainer {
       new StartEndCommand(
         () -> lift.setLift(joystick2.getZ()),
         () -> lift.setLift(0), lift));
-
-    new JoystickButton(joystick1, OIConstants.kHoodPosition).whileHeld(
-      new RunCommand(
-        () -> SmartDashboard.putNumber("Hood Position", shooter.getHoodPosition()), shooter));
         
+    new JoystickButton(joystick1, OIConstants.kHoodPosition)
+      .whenPressed(new RunCommand(
+      () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", 90)), articulatingHood))
+      .whileHeld(new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood), true);
   }
 
 
