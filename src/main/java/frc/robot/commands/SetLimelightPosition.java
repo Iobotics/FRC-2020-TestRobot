@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
@@ -74,6 +75,7 @@ public class SetLimelightPosition extends CommandBase {
     //servo.setLimelight(position + dposition*vposition); //set the limelight position to the origin position plus the change of the position * scaler 
     SmartDashboard.putNumber("servoPosition", servo.getServoValue());
     SmartDashboard.putBoolean("isTargeted", isTarget);
+    Timer.delay(0.5);
   }
 
   // Called once the command ends or is interrupted.
