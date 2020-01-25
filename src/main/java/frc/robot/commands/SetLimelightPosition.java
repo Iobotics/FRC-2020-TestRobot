@@ -41,8 +41,6 @@ public class SetLimelightPosition extends CommandBase {
   public void initialize() {
     //position = servo.getServoValue();
     SmartDashboard.putNumber("distance", 0.0);
-    servo.setLimelight(1.0);
-    Timer.delay(1.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -72,6 +70,7 @@ public class SetLimelightPosition extends CommandBase {
     //servo.setLimelight(position + dposition*vposition); //set the limelight position to the origin position plus the change of the position * scaler 
     SmartDashboard.putNumber("servoPosition", servo.getServoValue());
     SmartDashboard.putBoolean("isTargeted", isTarget);
+    Timer.delay(0.5);
   }
 
   // Called once the command ends or is interrupted.

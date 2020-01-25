@@ -57,7 +57,7 @@ public class RobotContainer {
     limelight.setDefaultCommand
     (new RunCommand(() -> limelight.printValues(), limelight));
 
-    limelightServo.setDefaultCommand(new RunCommand(() -> limelightServo.getServoValue(), limelightServo));
+    limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
     
   }
 
