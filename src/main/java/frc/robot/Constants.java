@@ -28,8 +28,8 @@ public final class Constants {
 
     public static final int limelightServo = 4; //change when you know the PWM
 
-    public static final int kLeftShooter = 0;
-    public static final int kRightShooter = 0;
+    public static final int kLeftShooter = 8;
+    public static final int kRightShooter = 10;
 
     public static final float kFShooter = 0f;
     public static final float kPShooter = 0.2f;

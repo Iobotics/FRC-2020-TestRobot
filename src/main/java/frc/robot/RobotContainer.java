@@ -17,6 +17,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightServo;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -35,6 +36,8 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight();
   private final LimelightServo limelightServo = new LimelightServo();
   //private final ControlWheel controlWheel = new ControlWheel();
+
+  private final Shooter shooter = new Shooter();
 
   private final Joystick joystick1 = new Joystick(Constants.kJoystick1);
   private final Joystick joystick2 = new Joystick(Constants.kJoystick2);
@@ -65,9 +68,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick1, 1).whenPressed(
-    //new SetLimelightPosition(limelight, limelightServo));
-    new InstantCommand(limelightServo::toggleServo, limelightServo));
+    new JoystickButton(joystick1, 1).whileHeld(
+    new SetLimelightPosition(limelight, limelightServo));
+    //new InstantCommand(limelightServo::toggleServo, limelightServo));
     
 
   }
@@ -81,6 +84,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     //return new ControlWheelDistance(20, controlWheel);
-    return null;
+    return null; //new RunCommand(() -> shooter.setRPM(0.8), shooter);
   }
+ 
 }

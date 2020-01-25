@@ -24,13 +24,15 @@ public class Shooter extends SubsystemBase {
     leftShooter = new TalonSRX(Constants.kLeftShooter);
     rightShooter = new TalonSRX(Constants.kRightShooter);
     rightShooter.follow(leftShooter);
+    rightShooter.setInverted(true);
 
     leftShooter.config_kF(0, Constants.kFShooter);
     leftShooter.config_kP(0, Constants.kPShooter);
   }
 
   public void setRPM (double RPM) {
-    leftShooter.set(ControlMode.Velocity, 2000);
+    //leftShooter.set(ControlMode.Velocity, 2600);
+    leftShooter.set(ControlMode.PercentOutput, 1);
   }
 
   @Override

@@ -46,11 +46,15 @@ public class Limelight extends SubsystemBase {
   }
   public boolean isTargetDetected()
   {
-    if(tv.getDouble(0.0) == 1)
-    { 
+    if(this.getTV() == 0.0){
+      return false;
+    }else{
       return true;
     }
-    return false;
+  }
+
+  public double getTV(){
+    return tv.getDouble(0.0);
   }
   public double getDistance()
   {
@@ -86,6 +90,8 @@ public class Limelight extends SubsystemBase {
     
     SmartDashboard.putNumber("LimelightX", this.getTX());
     SmartDashboard.putNumber("LimeilightY",this.getTY());
+    SmartDashboard.putBoolean("Limelight TV", this.isTargetDetected());
+    SmartDashboard.putNumber("Limelight Raw TV", this.getTV());
     SmartDashboard.putNumber("LimeLightArea", this.getDistance());
   //  SmartDashboard.putNumber("GetPipe", getpipe);g
     
