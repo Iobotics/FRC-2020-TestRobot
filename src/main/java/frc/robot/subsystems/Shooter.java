@@ -36,6 +36,10 @@ public class Shooter extends SubsystemBase {
 
     leftShooter = new TalonSRX(Constants.RobotMap.kLeftShooter);
     rightShooter = new TalonSRX(Constants.RobotMap.kRightShooter);
+    articulatingHood = new CANSparkMax(Constants.RobotMap.kArticulatingHood, MotorType.kBrushless);
+    articulatingHoodController = new CANPIDController(articulatingHood);
+    articulatingHoodEncoder = new CANEncoder(articulatingHood);
+
     rightShooter.follow(leftShooter);
     
     leftShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
@@ -50,10 +54,7 @@ public class Shooter extends SubsystemBase {
   public void setVelocity(double velocity) {
     leftShooter.set(ControlMode.Velocity, velocity);
 
-    articulatingHood = new CANSparkMax(Constants.RobotMap.kArticulatingHood, MotorType.kBrushless);
-    articulatingHoodController = new CANPIDController(articulatingHood);
-    articulatingHoodEncoder = new CANEncoder(articulatingHood);
-
+  
     leftShooter.setInverted(true);
 
   }
