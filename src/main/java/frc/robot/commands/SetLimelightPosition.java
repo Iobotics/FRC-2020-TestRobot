@@ -23,8 +23,7 @@ public class SetLimelightPosition extends CommandBase {
   private double position;
   private double dposition = 0.0; // change of position
   private double vposition = 0.1; // constant to set the scale of changing position
-  private boolean LeftReached;
-  private boolean RightReached;
+  private boolean rightMoving;
  
 
   public SetLimelightPosition(Limelight limelight, LimelightServo servo) {
@@ -44,15 +43,33 @@ public class SetLimelightPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {//this is looping until completion
-    //position = servo.getServoValue();\
-    position = SmartDashboard.getNumber("distance", 0.0);
+    position = servo.getServoValue();
     x = limelight.getTX(); //start by getting the x value from the limelight and saving it to a local variable
-    isTarget = limelight.isTargetDetected(); //now your getting whether or not you have a target acquired
-    /*if(position == 1.0){
+    /*isTarget = limelight.isTargetDetected(); //now your getting whether or not you have a target acquired
+    if(position == 1.0){
       servo.setLimelight(0.0);
     }else if(position == 0.0){
       servo.setLimelight(1.0);
     }*/
+    if(limelight.isTargetDetected()){
+      if(x > 0.0){
+        position += 0.1;
+      }else if(x < 0.0){
+        position -= 0.1;
+      }
+    }else if(!limelight.isTargetDetected()){
+      if(servo.getServoValue() >= 0.0 && rightMoving){
+        position += 0.1;
+      }else{
+        position -= 0.1;
+      }
+    }
+    if(servo.getServoValue() == 1.0){
+      rightMoving = false;
+    }else if(servo.getServoValue() == 0.0){
+      rightMoving = true;
+    }
+
     servo.setLimelight(position);
     //servo.setLimelight(position + dposition*vposition); //set the limelight position to the origin position plus the change of the position * scaler 
     SmartDashboard.putNumber("servoPosition", servo.getServoValue());
@@ -67,12 +84,11 @@ public class SetLimelightPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //if(isTarget && x==0){ //checks whether or not the limelight is centered
-      //return true;
-    //}
-    
-    //else if(servo.getServoValue()< 1.1*vposition || servo.getServoValue()> 8.9*vposition) { // check whether or not the servo reach its range of turning
+    if(limelight.isTargetDetected() && limelight.getTX()==0){ //checks whether or not the limelight is centered
       return true;
+    }else{
+      return false;
     }
   }
+}
 
