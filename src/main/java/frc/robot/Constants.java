@@ -27,7 +27,7 @@ public final class Constants {
         public static final int kControlPanelSpinner = 6;
         public static final int kIntake = 9;
         public static final int kLeftShooter = 7;
-        public static final int kRightShooter = 10;
+        public static final int kRightShooter = 8;
         public static final int kArticulatingHood = 5;
         public static final int kLift = 10;
 
@@ -56,6 +56,10 @@ public final class Constants {
         public static final int kRunShooter = 6;
     }
 
+    public static final class ShooterConstants{
+        public static final int kMaxVel = 36000;
+        public static final double kFF = (0.75 * 1023) / kMaxVel;
+    }
     public static final double kGearRatio = 10.71;
     //in meters
     public static final double kWheelDiameter = 0.2032;
