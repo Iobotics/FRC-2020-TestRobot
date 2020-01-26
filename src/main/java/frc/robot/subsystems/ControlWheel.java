@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.RobotMap;
 
 public class ControlWheel extends SubsystemBase {
   /**
@@ -27,7 +28,7 @@ public class ControlWheel extends SubsystemBase {
 
   private Timer timer;
   public ControlWheel() {
-    controlWheelSpinner = new CANSparkMax(Constants.kControlWheelSpinner, MotorType.kBrushless);
+    controlWheelSpinner = new CANSparkMax(RobotMap.kControlPanelSpinner, MotorType.kBrushless);
   }
 
   public void setSpeed(double speed) {

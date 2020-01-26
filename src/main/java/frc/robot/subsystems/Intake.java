@@ -9,28 +9,25 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.RobotMap;
 
-public class Shooter extends SubsystemBase {
+public class Intake extends SubsystemBase {
   /**
-   * Creates a new Shooter.
-   */
+   * Creates a new Intake.
+  */
+  private final TalonSRX intake;
 
-  private final TalonSRX leftShooter;
-  private final TalonSRX rightShooter;
-  public Shooter() {
-
-    leftShooter = new TalonSRX(Constants.RobotMap.kLeftShooter);
-    rightShooter = new TalonSRX(Constants.RobotMap.kRightShooter);
-    rightShooter.follow(leftShooter);
+  public Intake() {
+    intake = new TalonSRX(RobotMap.kIntake);
   }
 
-  public void setPower(double power) {
-    
-    leftShooter.set(ControlMode.PercentOutput, power);
-
+  public void setIntake(double power){
+    intake.set(ControlMode.PercentOutput, power);
   }
 
   @Override
