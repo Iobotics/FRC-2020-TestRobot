@@ -22,12 +22,25 @@ public class Intake extends SubsystemBase {
   */
   private final TalonSRX intake;
 
+
   public Intake() {
     intake = new TalonSRX(RobotMap.kIntake);
+    intake.config_kF(0,0,0);
+    /*               ^ ^ ^
+                     | | | Timeout in Ms
+                     | | The value given to the variable after "k"
+                     | Slot id */  
+		intake.config_kP(0,0,0);
+		intake.config_kI(0,0,0);
+		intake.config_kD(0,0,0);
   }
 
   public void setIntake(double power){
     intake.set(ControlMode.PercentOutput, power);
+  }
+
+  public int intakeVelocity(){
+    return intake.getSelectedSensorVelocity();
   }
 
   @Override

@@ -8,10 +8,11 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-
+import com.ctre.phoenix.motorcontrol.IMotorController;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Auto;
 import frc.robot.subsystems.ControlWheelSpinner;
@@ -44,7 +45,7 @@ public class RobotContainer {
   public double getGyro(){
     return gyro.getAngle();
   }
-
+  
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -54,6 +55,7 @@ public class RobotContainer {
     configureButtonBindings();
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
+    intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", intake.intakeVelocity()), intake));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
   }
 
