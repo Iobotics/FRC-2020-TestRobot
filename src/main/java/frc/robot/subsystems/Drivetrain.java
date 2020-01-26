@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,6 +32,8 @@ public class Drivetrain extends SubsystemBase {
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
 
+    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
     leftMaster.config_kP(0, Constants.kP);
     leftMaster.config_kI(0, Constants.kI);
     leftMaster.config_kD(0, Constants.kD);
@@ -52,16 +55,13 @@ public class Drivetrain extends SubsystemBase {
   public void motionMagic (double distance, double speed) {
 
     double rotations = distance/(Constants.kGearRatio*Constants.kWheelDiameter*Math.PI);
-    double targetPos = rotations*speed*4096;
+    double targetPos = rotations*4096;
 
     rightSlave.follow(leftMaster);
     rightMaster.follow(leftMaster);
     leftMaster.setSelectedSensorPosition(0);
     leftMaster.set(ControlMode.MotionMagic, targetPos);
 
-    while (!leftMaster.isMotionProfileFinished()) {
-
-    }
     config();
   }
 
