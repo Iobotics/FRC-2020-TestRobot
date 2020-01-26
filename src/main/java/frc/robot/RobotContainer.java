@@ -86,7 +86,7 @@ public class RobotContainer {
 
     new JoystickButton(xboxController, OIConstants.kRunShooter).whileHeld(
       new RunCommand(
-        () -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(SmartDashboard.getNumber("Shooter Output", 0))), shooter));
+        () -> SmartDashboard.putNumber("Shooter RPM", shooter.setVelocity(SmartDashboard.getNumber("Shooter Output", 0))), shooter));
 
     new JoystickButton(joystick2, OIConstants.kSetLift).whileHeld(
       new StartEndCommand(
