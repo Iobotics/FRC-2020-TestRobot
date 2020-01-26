@@ -11,7 +11,6 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,6 +32,7 @@ public class ControlWheelSpinner extends SubsystemBase {
   public ControlWheelSpinner() {
     ControlWheelSpinner = new CANSparkMax(RobotMap.kControlPanelSpinner, MotorType.kBrushless);
 
+    //Each Color Sensor is mapped to a port
     leftI2CPort = I2C.Port.kOnboard;
     rightI2CPort = I2C.Port.kMXP;
 
@@ -44,16 +44,22 @@ public class ControlWheelSpinner extends SubsystemBase {
     ControlWheelSpinner.set(speed);
   }
 
+  /**
+   * 
+   * @param revolutions is how many turns the spinner makes
+   */
   public void spinByEncoder (double revolutions) {
-    CANEncoder encoder = ControlWheelSpinner.getEncoder();
-    double start = encoder.getPosition();
-    System.out.println(start);
-    while ((encoder.getPosition() - start) < revolutions) {
+    double start = ControlWheelSpinner.getEncoder().getPosition();
+    while ((ControlWheelSpinner.getEncoder().getPosition() - start) < revolutions) {
       ControlWheelSpinner.set(0.4);
     }
     ControlWheelSpinner.stopMotor();
   }
 
+  /**
+   * 
+   * @return returns an array of the red green and blue values from the right sensor
+   */
   public int[] getColor(){
     int[] colors = {rightSensor.getBlue(), leftSensor.getBlue()};
     return colors;

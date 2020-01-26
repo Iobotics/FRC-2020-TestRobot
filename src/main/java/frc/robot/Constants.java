@@ -25,9 +25,10 @@ public final class Constants {
         public static final int kRightSlave = 3;
 
         public static final int kControlPanelSpinner = 6;
-        public static final int kIntake = 7;
-        public static final int kLeftShooter = 8;
-        public static final int kRightShooter = 9;
+        public static final int kIntake = 9;
+        public static final int kLeftShooter = 7;
+        public static final int kRightShooter = 10;
+        public static final int kArticulatingHood = 5;
         public static final int kLift = 10;
         public static final int kLimelightServo = 4;
 
@@ -39,11 +40,21 @@ public final class Constants {
     }
 
     public static final class OIConstants{
+        //Joysticks
         public static final int kJoystick1 = 0;
         public static final int kJoystick2 = 1;
-
-        public static final int spinWheel = 2;
         public static final int kXboxController = 2;
+
+        //Joystick 1
+        public static final int kRunIntake = 1;
+        public static final int kSpinWheel = 2;
+        public static final int kHoodPosition = 9;
+
+        //Joystick 2
+        public static final int kSetLift = 1;
+
+        //Xbox controller
+        public static final int kRunShooter = 6;
     }
 
     public static final double kGearRatio = 10.71;
