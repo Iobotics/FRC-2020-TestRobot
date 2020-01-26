@@ -25,10 +25,11 @@ public class Shooter extends SubsystemBase {
    * Creates a new Shooter.
    */
 
-  private final TalonSRX leftShooter;
-  private final TalonSRX rightShooter;
-
-  
+  private TalonSRX leftShooter;
+  private TalonSRX rightShooter;
+  private CANSparkMax articulatingHood;
+  private CANPIDController articulatingHoodController;
+  private CANEncoder articulatingHoodEncoder;
 
   public Shooter() {
 
@@ -41,10 +42,10 @@ public class Shooter extends SubsystemBase {
    
     //Cofigure the PID values of the shoot
     //The first value is the slot, second is constant, third is timeout
-    leftShooter.config_kF(0,0,0);
-    leftShooter.config_kP(0,0,0);
-    leftShooter.config_kI(0,0,0);
-    leftShooter.config_kD(0,0,0);
+    leftShooter.config_kF(0,0);
+    leftShooter.config_kP(0,0);
+    leftShooter.config_kI(0,0);
+    leftShooter.config_kD(0,0);
 
   }
 

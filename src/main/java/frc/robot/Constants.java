@@ -25,10 +25,14 @@ public final class Constants {
         public static final int kRightSlave = 3;
 
         public static final int kControlPanelSpinner = 6;
+
         public static final int kIntake = 9;
+
+        public static final int kShooterArm = 0;
         public static final int kLeftShooter = 7;
         public static final int kRightShooter = 10;
         public static final int kArticulatingHood = 5;
+
         public static final int kLift = 10;
 
     }
@@ -56,11 +60,22 @@ public final class Constants {
         public static final int kRunShooter = 6;
     }
 
-    public static final double kGearRatio = 10.71;
+    public static final class DrivetrainConstants {
+        public static final double kGearRatio = 10.71;
     //in meters
     public static final double kWheelDiameter = 0.2032;
 
     public static final double kP = 0;
     public static final double kI = 0;
     public static final double kD = 0;
+    public static final double kF = 0;
+    }
+
+    public static final class ShooterArmConstants {
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kF = 0;  
+    } 
+    
 }
