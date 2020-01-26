@@ -27,11 +27,14 @@ public final class Constants {
         public static final int kControlPanelSpinner = 6;
 
         public static final int kIntake = 9;
-
         public static final int kShooterArm = 0;
+
         public static final int kLeftShooter = 7;
         public static final int kRightShooter = 10;
         public static final int kArticulatingHood = 5;
+
+        public static final int kHopperFront = 8;
+        public static final int kHopperBack = 12;
 
         public static final int kLift = 10;
 
@@ -51,10 +54,11 @@ public final class Constants {
         //Joystick 1
         public static final int kRunIntake = 1;
         public static final int kSpinWheel = 2;
-        public static final int kHoodPosition = 9;
+        public static final int kPositionHood = 9;
 
         //Joystick 2
         public static final int kSetLift = 1;
+        public static final int kRunHopper = 3;
 
         //Xbox controller
         public static final int kRunShooter = 6;
@@ -62,13 +66,13 @@ public final class Constants {
 
     public static final class DrivetrainConstants {
         public static final double kGearRatio = 10.71;
-    //in meters
-    public static final double kWheelDiameter = 0.2032;
+        //in meters
+        public static final double kWheelDiameter = 0.2032;
 
-    public static final double kP = 0;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double kF = 0;
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kF = 0;
     }
 
     public static final class ShooterArmConstants {
@@ -77,5 +81,12 @@ public final class Constants {
         public static final double kD = 0;
         public static final double kF = 0;  
     } 
+
+    public static final class ArticulatingHoodConstants {
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kF = 0;
+    }
     
 }

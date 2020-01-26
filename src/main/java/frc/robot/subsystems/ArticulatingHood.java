@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ArticulatingHoodConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -28,14 +29,12 @@ public class ArticulatingHood extends SubsystemBase {
   private final PIDController articulatingHoodController;
   private final AnalogPotentiometer articulatingHoodEncoder;
 
-  private final double kP = 0;
-  private final double kI = 0;
-  private final double kD = 0;
+  
 
   public ArticulatingHood(){
     
     articulatingHood = new CANSparkMax(Constants.RobotMap.kArticulatingHood, MotorType.kBrushless);
-    articulatingHoodController = new PIDController(kP, kI, kD);
+    articulatingHoodController = new PIDController(ArticulatingHoodConstants.kP, ArticulatingHoodConstants.kI, ArticulatingHoodConstants.kD);
     articulatingHoodEncoder = new AnalogPotentiometer(5);
   }
   

@@ -18,6 +18,7 @@ import frc.robot.commands.Auto;
 import frc.robot.subsystems.ArticulatingHood;
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Shooter;
@@ -41,6 +42,7 @@ public class RobotContainer {
   private final ArticulatingHood articulatingHood = new ArticulatingHood();
   private final Lift lift = new Lift();
   private final AHRS gyro = new AHRS();
+  private final Hopper hopper = new Hopper();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
@@ -65,6 +67,7 @@ public class RobotContainer {
     articulatingHood.setDefaultCommand(
       new RunCommand(() -> articulatingHood.setPower(0), articulatingHood));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
+    hopper.setDefaultCommand(new RunCommand(() -> hopper.setPower(0), hopper));
   }
 
   /**
@@ -93,10 +96,13 @@ public class RobotContainer {
         () -> lift.setLift(joystick2.getZ()),
         () -> lift.setLift(0), lift));
         
-    new JoystickButton(joystick1, OIConstants.kHoodPosition)
+    new JoystickButton(joystick1, OIConstants.kPositionHood)
       .whenPressed(new RunCommand(
       () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", 90)), articulatingHood))
       .whileHeld(new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood), true);
+
+    new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
+      new RunCommand(() -> hopper.setPower(.5)));
   }
 
 
