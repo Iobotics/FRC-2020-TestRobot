@@ -49,11 +49,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    /*drivetrain.setDefaultCommand
-      (new RunCommand(() -> drivetrain
-        .setTank(joystick1.getY(), 
-          joystick2.getY()), drivetrain));*/
-
     limelight.setDefaultCommand
     (new RunCommand(() -> limelight.printValues(), limelight));
 
@@ -69,10 +64,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(joystick1, 1).whenPressed(
-    new SetLimelightPosition(limelight, limelightServo));
-    //new InstantCommand(limelightServo::toggleServo, limelightServo));
-    
-
+    new SetLimelightPosition(limelight, limelightServo));    
   }
 
 
@@ -83,8 +75,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    //return new ControlWheelDistance(20, controlWheel);
-    return null; //new RunCommand(() -> shooter.setRPM(0.8), shooter);
+    return null;
   }
  
 }
