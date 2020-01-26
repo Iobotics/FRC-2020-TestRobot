@@ -56,10 +56,9 @@ public class Limelight extends SubsystemBase {
   public double getTV(){
     return tv.getDouble(0.0);
   }
-  public double getDistance()
+  public double getTA()
   {
-    double area = ta.getDouble(0.0);
-    double distance; // mathwork needed base on height of bot and angle of camera
+    double area = ta.getDouble(0.0); // mathwork needed base on height of bot and angle of camera
     return area;
 
   }
@@ -92,7 +91,7 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("LimeilightY",this.getTY());
     SmartDashboard.putBoolean("Limelight TV", this.isTargetDetected());
     SmartDashboard.putNumber("Limelight Raw TV", this.getTV());
-    SmartDashboard.putNumber("LimeLightArea", this.getDistance());
+    SmartDashboard.putNumber("LimeLightArea", this.getTA());
   //  SmartDashboard.putNumber("GetPipe", getpipe);g
     
   }

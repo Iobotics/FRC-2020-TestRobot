@@ -41,6 +41,8 @@ public class SetLimelightPosition extends CommandBase {
   public void initialize() {
     //position = servo.getServoValue();
     SmartDashboard.putNumber("distance", 0.0);
+    servo.setLimelight(1.0);
+    Timer.delay(0.8);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,11 +59,11 @@ public class SetLimelightPosition extends CommandBase {
     }*/
    
     if(!isTarget)
-      {servo.setLimelight(servo.getServoValue()-dposition);}
+      {servo.setLimelight(servo.getServoValue()- dposition);}
     if(isTarget && x>0)
-      {servo.setLimelight(servo.getServoValue()-dposition);}
+      {servo.setLimelight(servo.getServoValue()+ dposition);}
     else if(x<0)
-      {servo.setLimelight(servo.getServoValue()+0.5*dposition);}
+      {servo.setLimelight(servo.getServoValue()- 0.5*dposition);}
     
 
     
@@ -70,7 +72,7 @@ public class SetLimelightPosition extends CommandBase {
     //servo.setLimelight(position + dposition*vposition); //set the limelight position to the origin position plus the change of the position * scaler 
     SmartDashboard.putNumber("servoPosition", servo.getServoValue());
     SmartDashboard.putBoolean("isTargeted", isTarget);
-    Timer.delay(0.5);
+  
   }
 
   // Called once the command ends or is interrupted.
@@ -81,7 +83,7 @@ public class SetLimelightPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(isTarget&& x<5 && x>-5) //checks whether or not the limelight is centered
+    if(isTarget&& x<5 && x>-5 ) //checks whether or not the limelight is centered
       return true;
     
     

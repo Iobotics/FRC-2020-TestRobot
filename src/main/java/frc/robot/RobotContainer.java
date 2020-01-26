@@ -57,7 +57,7 @@ public class RobotContainer {
     limelight.setDefaultCommand
     (new RunCommand(() -> limelight.printValues(), limelight));
 
-    limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
+    //limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
     
   }
 
@@ -68,7 +68,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick1, 1).whileHeld(
+    new JoystickButton(joystick1, 1).whenPressed(
     new SetLimelightPosition(limelight, limelightServo));
     //new InstantCommand(limelightServo::toggleServo, limelightServo));
     
