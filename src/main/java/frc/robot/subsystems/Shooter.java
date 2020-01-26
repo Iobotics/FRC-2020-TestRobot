@@ -11,8 +11,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
   /**
@@ -30,23 +34,21 @@ public class Shooter extends SubsystemBase {
     rightShooter = new TalonSRX(Constants.RobotMap.kRightShooter);
 
     rightShooter.follow(leftShooter);
-    
+    rightShooter.setInverted(true);
     leftShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
    
-    leftShooter.config_kF(0,0,0);
-    leftShooter.config_kP(0,0,0);
+    //Cofigure the PID values of the shoot
+    //The first value is the slot, second is constant, third is timeout
+    leftShooter.config_kF(0,ShooterConstants.kFF,0);
+    leftShooter.config_kP(0,0.085,0);
     leftShooter.config_kI(0,0,0);
     leftShooter.config_kD(0,0,0);
 
   }
 
-  public void setVelocity(double velocity) {
+  public int setVelocity(double velocity) {
     leftShooter.set(ControlMode.Velocity, velocity);
-
-  
-    leftShooter.setInverted(true);
-    
-
+    return leftShooter.getSelectedSensorVelocity();
   }
 
   public int setPower(double power) {
@@ -58,12 +60,13 @@ public class Shooter extends SubsystemBase {
   }
 
   public int getRPM(){
-    return rightShooter.getSelectedSensorVelocity() * 600 / 2048;
+    return leftShooter.getSelectedSensorVelocity();
   }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Shooter vel", getRPM());
   }
 }
