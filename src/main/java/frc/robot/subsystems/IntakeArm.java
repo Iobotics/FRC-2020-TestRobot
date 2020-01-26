@@ -12,23 +12,23 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeArmConstants;
 import frc.robot.Constants.RobotMap;
-import frc.robot.Constants.ShooterArmConstants;
 
-public class ShooterArm extends SubsystemBase {
+public class IntakeArm extends SubsystemBase {
   /**
    * Creates a new ShooterArm.
    */
 
   private TalonSRX arm;
 
-  public ShooterArm() {
+  public IntakeArm() {
     arm = new TalonSRX(RobotMap.kShooterArm);
 
-    arm.config_kP(0, ShooterArmConstants.kP);
-    arm.config_kI(0, ShooterArmConstants.kI);
-    arm.config_kD(0, ShooterArmConstants.kD);
-    arm.config_kF(0, ShooterArmConstants.kF);
+    arm.config_kP(0, IntakeArmConstants.kP);
+    arm.config_kI(0, IntakeArmConstants.kI);
+    arm.config_kD(0, IntakeArmConstants.kD);
+    arm.config_kF(0, IntakeArmConstants.kF);
 
     arm.configSelectedFeedbackSensor(FeedbackDevice.Analog);
     arm.configFeedbackNotContinuous(true, 0);
