@@ -27,10 +27,11 @@ public class Shooter extends SubsystemBase {
    * Creates a new Shooter.
    */
 
-  private final TalonSRX leftShooter;
-  private final TalonSRX rightShooter;
-
-  
+  private TalonSRX leftShooter;
+  private TalonSRX rightShooter;
+  private CANSparkMax articulatingHood;
+  private CANPIDController articulatingHoodController;
+  private CANEncoder articulatingHoodEncoder;
 
   public Shooter() {
 
