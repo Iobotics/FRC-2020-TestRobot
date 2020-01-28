@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.RobotMap;
 
 public class LimelightServo extends SubsystemBase {
   /**
@@ -18,7 +19,7 @@ public class LimelightServo extends SubsystemBase {
   private Servo servo;
   
   public LimelightServo() {
-    servo = new Servo(Constants.limelightServo);
+    servo = new Servo(RobotMap.kLimelightServo);
     servo.set(1.0);
   }
 

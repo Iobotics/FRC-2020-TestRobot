@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.RobotMap;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -21,17 +22,47 @@ public class Drivetrain extends SubsystemBase {
   private TalonSRX rightSlave;
 
   public Drivetrain() {
-    leftMaster = new TalonSRX(Constants.kLeftMaster);
-    rightMaster =  new TalonSRX(Constants.kRightMaster);
-    leftSlave = new TalonSRX(Constants.kLeftSlave);
-    rightSlave = new TalonSRX(Constants.kRightSlave);
+    leftMaster = new TalonSRX(RobotMap.kLeftMaster);
+    rightMaster =  new TalonSRX(RobotMap.kRightMaster);
+    leftSlave = new TalonSRX(RobotMap.kLeftSlave);
+    rightSlave = new TalonSRX(RobotMap.kRightSlave);
+    rightMaster.setInverted(false);
+    rightSlave.setInverted(false);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
+
+    leftMaster.config_kP(0, Constants.kP);
+    leftMaster.config_kI(0, Constants.kI);
+    leftMaster.config_kD(0, Constants.kD);
   }
+
+  public void config () {
+    rightMaster.setInverted(true);
+    rightSlave.setInverted(true);
+    leftSlave.follow(leftMaster);
+    rightSlave.follow(rightMaster);
+  } 
   
   public void setTank(double leftPower, double rightPower){
+ 
     leftMaster.set(ControlMode.PercentOutput, leftPower);
     rightMaster.set(ControlMode.PercentOutput, rightPower);
+  }
+
+  public void motionMagic (double distance, double speed) {
+
+    double rotations = distance/(Constants.kGearRatio*Constants.kWheelDiameter*Math.PI);
+    double targetPos = rotations*speed*4096;
+
+    rightSlave.follow(leftMaster);
+    rightMaster.follow(leftMaster);
+    leftMaster.setSelectedSensorPosition(0);
+    leftMaster.set(ControlMode.MotionMagic, targetPos);
+
+    while (!leftMaster.isMotionProfileFinished()) {
+
+    }
+    config();
   }
 
   @Override

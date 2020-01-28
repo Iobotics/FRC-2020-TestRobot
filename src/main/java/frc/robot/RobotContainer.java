@@ -7,16 +7,23 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SetLimelightPosition;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightServo;
+import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Auto;
+import frc.robot.subsystems.ControlWheelSpinner;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -35,9 +42,20 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight();
   private final LimelightServo limelightServo = new LimelightServo();
   //private final ControlWheel controlWheel = new ControlWheel();
+  private final Drivetrain drivetrain = new Drivetrain();
+  private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
+  private final Intake intake = new Intake();
+  private final Shooter shooter = new Shooter();
+  private final Lift lift = new Lift();
+  private final AHRS gyro = new AHRS();
 
-  private final Joystick joystick1 = new Joystick(Constants.kJoystick1);
-  private final Joystick joystick2 = new Joystick(Constants.kJoystick2);
+  private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
+  private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
+
+  private final XboxController xboxController = new XboxController(OIConstants.kXboxController);
+  public double getGyro(){
+    return gyro.getAngle();
+  }
 
 
   /**
@@ -46,16 +64,15 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    /*drivetrain.setDefaultCommand
-      (new RunCommand(() -> drivetrain
-        .setTank(joystick1.getY(), 
-          joystick2.getY()), drivetrain));*/
-
     limelight.setDefaultCommand
     (new RunCommand(() -> limelight.printValues(), limelight));
 
-    limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
+    //limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
     
+    drivetrain.setDefaultCommand
+      (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
+
+    //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
   }
 
   /**
@@ -65,11 +82,29 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick1, 1).whenPressed(
-    //new SetLimelightPosition(limelight, limelightServo));
-    new InstantCommand(limelightServo::toggleServo, limelightServo));
-    
 
+    new JoystickButton(joystick1, 1).whenPressed(
+      new SetLimelightPosition(limelight, limelightServo));
+          
+    new JoystickButton(joystick1, OIConstants.spinWheel).whileHeld(
+      new StartEndCommand(
+        () -> controlWheelSpinner.spin(.5), 
+        () -> controlWheelSpinner.spin(0), controlWheelSpinner));
+        
+    new JoystickButton(joystick1, 1).whileHeld(
+      new StartEndCommand(
+        () -> intake.setIntake((joystick1.getZ() + 1)/2),
+        () -> intake.setIntake(0), intake));
+
+    new JoystickButton(joystick2, 1).whileHeld(
+      new StartEndCommand(
+        () -> lift.setLift(joystick2.getZ()),
+        () -> lift.setLift(0), lift));
+        
+    new JoystickButton(xboxController, 7).whileHeld(
+      new StartEndCommand(
+        () -> shooter.setPower(Math.abs(xboxController.getY())),
+        () -> shooter.setPower(0), shooter));
   }
 
 
@@ -80,7 +115,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    //return new ControlWheelDistance(20, controlWheel);
-    return null;
+    return new Auto(gyro, 90.0, drivetrain);
   }
+ 
 }

@@ -15,8 +15,8 @@ public class AutoDrive extends CommandBase {
    * Creates a new AutoDrive.
    */
   Drivetrain drivetrain;
-  double distance;
 
+  double distance;
   public AutoDrive(Drivetrain drivetrain, double distance) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
