@@ -27,7 +27,7 @@ public final class Constants {
         public static final int kControlPanelSpinner = 6;
 
         public static final int kIntake = 9;
-        public static final int kShooterArm = 0;
+        public static final int kIntakeArm = 0;
 
         public static final int kLeftShooter = 7;
         public static final int kRightShooter = 8;
@@ -55,6 +55,7 @@ public final class Constants {
         //Joystick 1
         public static final int kRunIntake = 1;
         public static final int kSpinWheel = 2;
+        public static final int kToggleIntakeArm = 4; 
         public static final int kPositionHood = 9;
 
         //Joystick 2
@@ -85,7 +86,10 @@ public final class Constants {
         public static final double kP = 0;
         public static final double kI = 0;
         public static final double kD = 0;
-        public static final double kF = 0;  
+        public static final double kF = 0;
+
+        public static final double kPotentUp = 0;
+        public static final double kPotentDown = 0;
     } 
 
     public static final class ArticulatingHoodConstants {
