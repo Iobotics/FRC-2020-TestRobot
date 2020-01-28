@@ -92,6 +92,7 @@ public final class Constants {
         public static final double kD = 0;
         public static final double kF = 0;
 
+        //Values for the Up & Down position on the potentionmeter for position control
         public static final double kPotentUp = 0;
         public static final double kPotentDown = 0;
     } 
