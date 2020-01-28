@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
@@ -25,6 +26,7 @@ public class SetLimelightPosition extends CommandBase {
   private double vposition = 0.1; // constant to set the scale of changing position
   private boolean LeftReached;
   private boolean RightReached;
+  private boolean initialized;
  
 
   public SetLimelightPosition(Limelight limelight, LimelightServo servo) {
@@ -39,6 +41,8 @@ public class SetLimelightPosition extends CommandBase {
   public void initialize() {
     //position = servo.getServoValue();
     SmartDashboard.putNumber("distance", 0.0);
+    servo.setLimelight(1.0);
+    Timer.delay(1.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,7 +57,18 @@ public class SetLimelightPosition extends CommandBase {
     }else if(position == 0.0){
       servo.setLimelight(1.0);
     }*/
-    servo.setLimelight(position);
+   
+    if(!isTarget)
+      servo.setLimelight(servo.getServoValue()-dposition);
+    if(x>0)
+      servo.setLimelight(servo.getServoValue()-dposition);
+    else if(x<0)
+      servo.setLimelight(servo.getServoValue()+0.5*dposition);
+    
+
+    
+    
+    
     //servo.setLimelight(position + dposition*vposition); //set the limelight position to the origin position plus the change of the position * scaler 
     SmartDashboard.putNumber("servoPosition", servo.getServoValue());
     SmartDashboard.putBoolean("isTargeted", isTarget);
@@ -67,12 +82,13 @@ public class SetLimelightPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //if(isTarget && x==0){ //checks whether or not the limelight is centered
-      //return true;
-    //}
+    if(isTarget&& x<3 && x>-3) //checks whether or not the limelight is centered
+      return true;
+    
     
     //else if(servo.getServoValue()< 1.1*vposition || servo.getServoValue()> 8.9*vposition) { // check whether or not the servo reach its range of turning
-      return true;
-    }
+      return false;
+    
   }
+}
 

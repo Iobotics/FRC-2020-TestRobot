@@ -7,15 +7,13 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.EntryListenerFlags;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
+
 
 public class Limelight extends SubsystemBase {
   /**
@@ -27,12 +25,12 @@ public class Limelight extends SubsystemBase {
   private  NetworkTableEntry tx;
   private  NetworkTableEntry ty;
   private  NetworkTableEntry ta;
-  private  NetworkTableEntry ledMode;
+ // private  NetworkTableEntry ledMode;
 
-  private  boolean isDetected;
+ // private  boolean isDetected;
   private  double x = 0;
   private  double y = 0;
-  private  double area = 0;
+  //private  double area = 0;
 
   public Limelight()  {
     inst = NetworkTableInstance.getDefault();
@@ -55,7 +53,7 @@ public class Limelight extends SubsystemBase {
   public double getDistance()
   {
     double area = ta.getDouble(0.0);
-    double distance; // mathwork needed base on height of bot and angle of camera
+    //double distance; // mathwork needed base on height of bot and angle of camera
     return area;
 
   }
