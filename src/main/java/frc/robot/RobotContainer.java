@@ -95,10 +95,9 @@ public class RobotContainer {
     new JoystickButton(joystick1, 1).whenPressed(
       new SetLimelightPosition(limelight, limelightServo));
           
-    new JoystickButton(joystick1, OIConstants.spinWheel).whileHeld(
     new JoystickButton(joystick1, OIConstants.kSpinWheel).whileHeld(
       new StartEndCommand(
-        () -> controlWheelSpinner.spin(.5), 
+        () -> controlWheelSpinner.spin(0.5), 
         () -> controlWheelSpinner.spin(0), controlWheelSpinner));
         
     new JoystickButton(joystick1, OIConstants.kRunIntake).whileHeld(
