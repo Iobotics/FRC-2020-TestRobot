@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -89,9 +93,9 @@ public final class Constants {
     } 
 
     public static final class ArticulatingHoodConstants {
-        public static final double kP = 0;
-        public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kP = SmartDashboard.getNumber("Hood kP", 0);
+        public static final double kI = SmartDashboard.getNumber("Hood kI", 0);
+        public static final double kD = SmartDashboard.getNumber("Hood kD", 0);
         public static final double kF = 0;
     }
     

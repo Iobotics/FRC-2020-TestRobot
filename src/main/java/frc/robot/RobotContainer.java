@@ -79,7 +79,7 @@ public class RobotContainer {
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
     intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", intake.intakeVelocity()), intake));
     articulatingHood.setDefaultCommand(
-      new RunCommand(() -> articulatingHood.setPower(0), articulatingHood));
+      new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
     hopper.setDefaultCommand(new RunCommand(() -> hopper.setPower(0), hopper));
   }
@@ -116,11 +116,10 @@ public class RobotContainer {
         
     new JoystickButton(joystick1, OIConstants.kPositionHood)
       .whenPressed(new RunCommand(
-      () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", 90)), articulatingHood))
-      .whileHeld(new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood), true);
+      () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", 90)), articulatingHood));
 
     new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
-      new RunCommand(() -> hopper.setPower(.5)));
+      new RunCommand(() -> hopper.setPower(.2)));
   }
 
 
