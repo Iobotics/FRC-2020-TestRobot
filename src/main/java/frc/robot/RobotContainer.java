@@ -24,6 +24,7 @@ import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeArm;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,6 +48,7 @@ public class RobotContainer {
   private final Drivetrain drivetrain = new Drivetrain();
   private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
+  private final IntakeArm intakeArm = new IntakeArm();
   private final Shooter shooter = new Shooter();
   private final ArticulatingHood articulatingHood = new ArticulatingHood();
   private final Lift lift = new Lift();
@@ -79,7 +81,7 @@ public class RobotContainer {
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
     intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", intake.intakeVelocity()), intake));
     articulatingHood.setDefaultCommand(
-      new RunCommand(() -> articulatingHood.setPower(0), articulatingHood));
+      new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
     hopper.setDefaultCommand(new RunCommand(() -> hopper.setPower(0), hopper));
   }
@@ -95,16 +97,18 @@ public class RobotContainer {
     new JoystickButton(joystick1, 1).whenPressed(
       new SetLimelightPosition(limelight, limelightServo));
           
-    new JoystickButton(joystick1, OIConstants.spinWheel).whileHeld(
     new JoystickButton(joystick1, OIConstants.kSpinWheel).whileHeld(
       new StartEndCommand(
-        () -> controlWheelSpinner.spin(.5), 
+        () -> controlWheelSpinner.spin(0.5), 
         () -> controlWheelSpinner.spin(0), controlWheelSpinner));
         
     new JoystickButton(joystick1, OIConstants.kRunIntake).whileHeld(
       new StartEndCommand(
         () -> intake.setIntake((joystick1.getZ() + 1)/2),
         () -> intake.setIntake(0), intake));
+    new JoystickButton(joystick1, OIConstants.kToggleIntakeArm).whileHeld(
+      new RunCommand(
+        () -> intakeArm.toggleButton(), intakeArm));
 
     new JoystickButton(xboxController, OIConstants.kRunShooter).whileHeld(
       new RunCommand(
@@ -117,11 +121,10 @@ public class RobotContainer {
         
     new JoystickButton(joystick1, OIConstants.kPositionHood)
       .whenPressed(new RunCommand(
-      () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", 90)), articulatingHood))
-      .whileHeld(new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood), true);
+      () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", 90)), articulatingHood));
 
     new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
-      new RunCommand(() -> hopper.setPower(.5)));
+      new RunCommand(() -> hopper.setPower(.2)));
   }
 
 

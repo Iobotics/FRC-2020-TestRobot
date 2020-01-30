@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,8 +23,13 @@ public class IntakeArm extends SubsystemBase {
 
   private TalonSRX arm;
 
+  private double potentUp;
+  private double potentDown;
+
+  private boolean isUp = false;
+
   public IntakeArm() {
-    arm = new TalonSRX(RobotMap.kShooterArm);
+    arm = new TalonSRX(RobotMap.kIntakeArm);
 
     arm.config_kP(0, IntakeArmConstants.kP);
     arm.config_kI(0, IntakeArmConstants.kI);
@@ -32,16 +38,51 @@ public class IntakeArm extends SubsystemBase {
 
     arm.configSelectedFeedbackSensor(FeedbackDevice.Analog);
     arm.configFeedbackNotContinuous(true, 0);
+
+    arm.setNeutralMode(NeutralMode.Brake);
+
+    potentUp = IntakeArmConstants.kPotentUp;
+    potentDown = IntakeArmConstants.kPotentDown;
+  }
+  
+  /**
+   * NOTE: This function only works when the arm has been moved at least once to a certain position due to Talons not willing to commmunicate encoder telemetry
+   * @return True- The arm is in the pre-set up position; False - Pre-set down position 
+   */
+  public boolean isUp () {
+    return isUp;
   }
 
-  //TODO: Add math to convert rotations to analog encoder ticks
-  public void setRotations(double rotations) {
-    double ticks = rotations;
-    arm.set(ControlMode.MotionMagic, ticks);
+  /**
+   * Puts the Intake Arm in the pre-set down position
+   */
+  public void setDown() {
+    arm.set(ControlMode.Position, potentDown);
+    isUp = false;
+  }
+   /**
+   * Manually set the percent output
+   * @param percent % output (-1 -> 1)
+   */
+  public void setManual(double percent) {
+    arm.set(ControlMode.PercentOutput, percent);
+  }
+  /**
+   * Puts the Intake Arm in the pre-set up position
+   */
+  public void setUp() {
+    arm.set(ControlMode.Position, potentUp);
+    isUp = true;
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  /**
+   * Checks the location of the arm and moves in between the two positions accordingly (for one button teleop feature)
+   */
+  public void toggleButton() {
+    if (!isUp()) {
+      setUp();
+    } else {
+      setDown();
+    }
   }
 }

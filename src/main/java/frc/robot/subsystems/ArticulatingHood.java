@@ -32,7 +32,6 @@ public class ArticulatingHood extends SubsystemBase {
   
 
   public ArticulatingHood(){
-    
     articulatingHood = new CANSparkMax(Constants.RobotMap.kArticulatingHood, MotorType.kBrushless);
     articulatingHoodController = new PIDController(ArticulatingHoodConstants.kP, ArticulatingHoodConstants.kI, ArticulatingHoodConstants.kD);
     articulatingHoodEncoder = new AnalogPotentiometer(5);
