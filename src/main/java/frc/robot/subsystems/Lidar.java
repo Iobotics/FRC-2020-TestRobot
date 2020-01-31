@@ -20,18 +20,27 @@ public class Lidar extends SubsystemBase {
   private I2C lidar;
 
   private byte[] buffer;
+  private byte[] delay;
+  private byte[] test ={0,0,0};
 
   public Lidar() {
     buffer = new byte[2];
-    lidar = new I2C(Port.kOnboard, 98);
+    delay = new byte[6];
+    lidar = new I2C(Port.kMXP, 98);
   }
 
   @Override
   public void periodic() {
+    
     lidar.write(0x00, 0x04);
-    Timer.delay(.04);
-    lidar.read(0x8f, 2, buffer);
-    SmartDashboard.putNumber("Lidar", Integer.toUnsignedLong(buffer[0] << 8) + Byte.toUnsignedInt(buffer[1]));
-    Timer.delay(0.005);
+    lidar.read(0x01, 6, delay); 
+    if(delay[0] == 1){
+    } else {
+      lidar.read(0x8f, 2, buffer);
+      SmartDashboard.putNumber("Lidar", Integer.toUnsignedLong(buffer[0] << 8) + Byte.toUnsignedInt(buffer[1]));
+    
+    }
+    
+    
   }
 }

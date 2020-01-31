@@ -30,10 +30,10 @@ public final class Constants {
 
         public static final int kControlPanelSpinner = 6;
 
-        public static final int kIntake = 9;
+        public static final int kIntake = 7;
         public static final int kIntakeArm = 0;
 
-        public static final int kLeftShooter = 7;
+        public static final int kLeftShooter = 9;
         public static final int kRightShooter = 8;
         public static final int kArticulatingHood = 5;
 
