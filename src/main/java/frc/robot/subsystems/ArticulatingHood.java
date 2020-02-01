@@ -26,19 +26,22 @@ public class ArticulatingHood extends SubsystemBase {
   // here. Call these from Commands.
   
   private final CANSparkMax articulatingHood;
-  private final PIDController articulatingHoodController;
+  //private final PIDController articulatingHoodController;
   private final AnalogPotentiometer articulatingHoodEncoder;
-
+  private double setPoint = .11;
+  private double power = 0;
   
 
   public ArticulatingHood(){
     articulatingHood = new CANSparkMax(Constants.RobotMap.kArticulatingHood, MotorType.kBrushless);
-    articulatingHoodController = new PIDController(ArticulatingHoodConstants.kP, ArticulatingHoodConstants.kI, ArticulatingHoodConstants.kD);
-    articulatingHoodEncoder = new AnalogPotentiometer(5);
+    /*articulatingHoodController = new PIDController(ArticulatingHoodConstants.kP, ArticulatingHoodConstants.kI, ArticulatingHoodConstants.kD);*/
+    articulatingHoodEncoder = new AnalogPotentiometer(2);
+    //articulatingHoodController.setSetpoint(.24);
   }
   
   public void setHoodPosition(){
-    articulatingHood.set(articulatingHoodController.calculate(articulatingHoodEncoder.get()));
+    //articulatingHood.set(1);
+    SmartDashboard.putNumber("Hood pos", getHoodPosition());
   }
 
   public double getHoodPosition(){
@@ -46,7 +49,8 @@ public class ArticulatingHood extends SubsystemBase {
   }
 
   public void setHoodSetPoint(double position){
-    articulatingHoodController.setSetpoint(position);
+    //articulatingHoodController.setSetpoint(Double.max(Double.min(position, Constants.ArticulatingHoodConstants.hoodMaximum), Constants.ArticulatingHoodConstants.hoodMinimum));
+    setPoint = position;
   }
 
   public void setPower(double power){

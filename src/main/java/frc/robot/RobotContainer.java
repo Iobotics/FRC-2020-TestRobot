@@ -59,6 +59,7 @@ public class RobotContainer {
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
 
   private final XboxController xboxController = new XboxController(OIConstants.kXboxController);
+  
   public double getGyro(){
     return gyro.getAngle();
   }
@@ -69,6 +70,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    
     configureButtonBindings();
     limelight.setDefaultCommand
     (new RunCommand(() -> limelight.printValues(), limelight));
@@ -82,6 +84,7 @@ public class RobotContainer {
     intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", intake.intakeVelocity()), intake));
     articulatingHood.setDefaultCommand(
       new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood));
+      //new RunCommand(() -> SmartDashboard.putNumber("Hood pos", articulatingHood.getHoodPosition()), articulatingHood));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
     hopper.setDefaultCommand(new RunCommand(() -> hopper.setPower(0), hopper));
   }
@@ -121,10 +124,12 @@ public class RobotContainer {
         
     new JoystickButton(joystick1, OIConstants.kPositionHood)
       .whenPressed(new RunCommand(
-      () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", 90)), articulatingHood));
+      () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", .19)), articulatingHood));
 
     new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
       new RunCommand(() -> hopper.setPower(.2)));
+
+    
   }
 
 
