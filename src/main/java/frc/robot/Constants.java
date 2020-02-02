@@ -62,11 +62,11 @@ public final class Constants {
         public static final int kAutoAlign = 3;
         public static final int kToggleIntakeArm = 4;
         public static final int kSetLimelightPosition = 5; 
-        public static final int kPositionHood = 9;
 
         //Joystick 2
         public static final int kSetLift = 1;
         public static final int kRunHopper = 3;
+        public static final int kPositionHood = 9;
 
         //Xbox controller
         public static final int kRunShooter = 6;

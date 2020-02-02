@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArticulatingHoodConstants;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -25,37 +25,42 @@ public class ArticulatingHood extends SubsystemBase {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
-  private final CANSparkMax articulatingHood;
+  private final TalonSRX articulatingHood;
   //private final PIDController articulatingHoodController;
-  private final AnalogPotentiometer articulatingHoodEncoder;
-  private double setPoint = .11;
-  private double power = 0;
+  private double setPoint = ArticulatingHoodConstants.hoodMaximum;
   
 
   public ArticulatingHood(){
-    articulatingHood = new CANSparkMax(Constants.RobotMap.kArticulatingHood, MotorType.kBrushless);
-    /*articulatingHoodController = new PIDController(ArticulatingHoodConstants.kP, ArticulatingHoodConstants.kI, ArticulatingHoodConstants.kD);*/
-    articulatingHoodEncoder = new AnalogPotentiometer(2);
-    //articulatingHoodController.setSetpoint(.24);
+    articulatingHood = new TalonSRX(Constants.RobotMap.kArticulatingHood);
+    articulatingHood.config_kP(0, ArticulatingHoodConstants.kP);
+    articulatingHood.config_kI(0, ArticulatingHoodConstants.kI);
+    articulatingHood.config_kD(0, ArticulatingHoodConstants.kD);
+    articulatingHood.config_kF(0, ArticulatingHoodConstants.kF);
+
+    articulatingHood.configSelectedFeedbackSensor(FeedbackDevice.Analog);
+    articulatingHood.configFeedbackNotContinuous(true, 0);
+
+    articulatingHood.setNeutralMode(NeutralMode.Brake);
   }
   
   public void setHoodPosition(){
-    //articulatingHood.set(1);
+    
+    articulatingHood.set(ControlMode.Position, setPoint);
     SmartDashboard.putNumber("Hood pos", getHoodPosition());
+
   }
 
   public double getHoodPosition(){
-    return articulatingHoodEncoder.get();
+    return articulatingHood.getSelectedSensorPosition();
   }
 
   public void setHoodSetPoint(double position){
-    //articulatingHoodController.setSetpoint(Double.max(Double.min(position, Constants.ArticulatingHoodConstants.hoodMaximum), Constants.ArticulatingHoodConstants.hoodMinimum));
     setPoint = position;
   }
 
   public void setPower(double power){
-    articulatingHood.set(power);
-    SmartDashboard.putNumber("Hood Position", articulatingHoodEncoder.get());
+    articulatingHood.set(ControlMode.PercentOutput, power);
+    SmartDashboard.putNumber("Hood Position", articulatingHood.getSelectedSensorPosition());
   }
 
 }

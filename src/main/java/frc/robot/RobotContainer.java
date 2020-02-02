@@ -17,6 +17,7 @@ import frc.robot.commands.SetLimelightPosition;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightServo;
+import frc.robot.Constants.ArticulatingHoodConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Auto;
 import frc.robot.subsystems.ArticulatingHood;
@@ -122,9 +123,9 @@ public class RobotContainer {
         () -> lift.setLift(joystick2.getZ()),
         () -> lift.setLift(0), lift));
         
-    new JoystickButton(joystick1, OIConstants.kPositionHood)
+    new JoystickButton(joystick2, OIConstants.kPositionHood)
       .whenPressed(new RunCommand(
-      () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", .19)), articulatingHood));
+      () -> articulatingHood.setHoodSetPoint(((joystick2.getZ()+1) * (ArticulatingHoodConstants.hoodMaximum - ArticulatingHoodConstants.hoodMinimum)) + ArticulatingHoodConstants.hoodMinimum), articulatingHood));
 
     new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
       new RunCommand(() -> hopper.setPower(.2)));
