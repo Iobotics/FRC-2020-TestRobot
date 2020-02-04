@@ -60,7 +60,9 @@ public final class Constants {
         //Joystick 1
         public static final int kRunIntake = 1;
         public static final int kSpinWheel = 2;
-        public static final int kToggleIntakeArm = 4; 
+        public static final int kAutoAlign = 3;
+        public static final int kToggleIntakeArm = 4;
+        public static final int kSetLimelightPosition = 5; 
         public static final int kPositionHood = 9;
 
         //Joystick 2
@@ -69,6 +71,7 @@ public final class Constants {
 
         //Xbox controller
         public static final int kRunShooter = 6;
+		
     }
 
     public static final class ShooterConstants{
