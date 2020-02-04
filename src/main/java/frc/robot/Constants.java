@@ -43,6 +43,7 @@ public final class Constants {
         public static final int kLift = 10;
         public static final int kLimelightServo = 4;
 
+        public static final int proximitySensor = 0;
     }
 
     public static final class SensorMap{

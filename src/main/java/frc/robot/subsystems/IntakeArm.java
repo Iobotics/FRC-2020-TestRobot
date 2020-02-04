@@ -18,12 +18,14 @@ import frc.robot.Constants.RobotMap;
 
 public class IntakeArm extends SubsystemBase {
   /**
-   * Creates a new ShooterArm.
+   * Creates a new IntakeArm.
    */
 
   private TalonSRX arm;
 
+  //Potentiometer value for up position
   private double potentUp;
+  //Potentiometer value for down position
   private double potentDown;
 
   private boolean isUp = false;
@@ -43,6 +45,10 @@ public class IntakeArm extends SubsystemBase {
 
     potentUp = IntakeArmConstants.kPotentUp;
     potentDown = IntakeArmConstants.kPotentDown;
+
+    if (arm.getSelectedSensorPosition() == potentUp) {
+      isUp = true;
+    } 
   }
   
   /**
