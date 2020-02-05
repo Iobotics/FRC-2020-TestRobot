@@ -27,26 +27,45 @@ public class ArticulatingHood extends SubsystemBase {
   
   private final TalonSRX articulatingHood;
   //private final PIDController articulatingHoodController;
-  private double setPoint = ArticulatingHoodConstants.hoodMaximum;
-  
+  private double setPoint = 370;
+  private double lastValue;
+  double addedValue = 0;
 
   public ArticulatingHood(){
     articulatingHood = new TalonSRX(Constants.RobotMap.kArticulatingHood);
-    articulatingHood.config_kP(0, ArticulatingHoodConstants.kP);
-    articulatingHood.config_kI(0, ArticulatingHoodConstants.kI);
-    articulatingHood.config_kD(0, ArticulatingHoodConstants.kD);
-    articulatingHood.config_kF(0, ArticulatingHoodConstants.kF);
+    articulatingHood.config_kP(1, ArticulatingHoodConstants.kP);
+    articulatingHood.config_kI(1, ArticulatingHoodConstants.kI);
+    articulatingHood.config_kD(1, ArticulatingHoodConstants.kD);
+    articulatingHood.config_kF(1, ArticulatingHoodConstants.kF);
 
     articulatingHood.configSelectedFeedbackSensor(FeedbackDevice.Analog);
-    articulatingHood.configFeedbackNotContinuous(true, 0);
+    articulatingHood.configFeedbackNotContinuous(false, 0);
+    articulatingHood.setSensorPhase(false);
+
+    lastValue = articulatingHood.getSelectedSensorPosition();
 
     articulatingHood.setNeutralMode(NeutralMode.Brake);
+    //articulatingHood.setInverted(false);
+    articulatingHood.set(ControlMode.PercentOutput, 0);
   }
   
   public void setHoodPosition(){
-    
-    articulatingHood.set(ControlMode.Position, setPoint);
-    SmartDashboard.putNumber("Hood pos", getHoodPosition());
+    double error = articulatingHood.getSelectedSensorPosition() - setPoint;
+    if(Math.abs(articulatingHood.getSelectedSensorPosition() - setPoint) > 1){
+      if(lastValue == articulatingHood.getSelectedSensorPosition()){
+        addedValue += (Math.abs(error)/error * .5 * (Math.pow(Math.abs(error) / (ArticulatingHoodConstants.hoodMaximum - ArticulatingHoodConstants.hoodMinimum), .7))) + addedValue < 1.00 ? .01 : 0;
+      } else {
+        addedValue -= addedValue > 0 ? .01 : 0;
+        lastValue = articulatingHood.getSelectedSensorPosition();
+      }
+      articulatingHood.set(ControlMode.PercentOutput, (Math.abs(error)/error * .5 * (Math.pow(Math.abs(error) / (ArticulatingHoodConstants.hoodMaximum - ArticulatingHoodConstants.hoodMinimum), .7))) + addedValue);
+    }
+    else {
+      addedValue = 0;
+    }
+    //articulatingHood.set(ControlMode.Position, setPoint);
+    SmartDashboard.putNumber("Hood percent", articulatingHood.getMotorOutputPercent());
+    SmartDashboard.putNumber("Hood pos", articulatingHood.getSelectedSensorPosition());
 
   }
 

@@ -28,14 +28,14 @@ public final class Constants {
         public static final int kLeftSlave = 2;
         public static final int kRightSlave = 3;
 
-        public static final int kControlPanelSpinner = 666;
+        public static final int kControlPanelSpinner = 6;
 
         public static final int kIntake = 9;
         public static final int kIntakeArm = 0;
 
         public static final int kLeftShooter = 7;
         public static final int kRightShooter = 8;
-        public static final int kArticulatingHood = 6;
+        public static final int kArticulatingHood = 5;
 
         public static final int kHopperFront = 8;
         public static final int kHopperBack = 12;
@@ -106,8 +106,8 @@ public final class Constants {
         public static final double kD = 0;
         public static final double kF = 0;
 
-        public static final double hoodMinimum = .12;
-        public static final double hoodMaximum = .25;
+        public static final double hoodMinimum = 135;
+        public static final double hoodMaximum = 370;
     }
     
 }
