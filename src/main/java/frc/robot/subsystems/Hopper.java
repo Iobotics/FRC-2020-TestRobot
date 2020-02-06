@@ -35,11 +35,11 @@ public class Hopper extends SubsystemBase {
     hopperMotorFront.setInverted(false);
   }
 
-  public void setPower(double power){
+  public void setFrontPower(double power){
     hopperMotorFront.set(ControlMode.PercentOutput, power);
   }
 
-  public boolean getBallSensor() {
+  public boolean getBallSensorValue() {
     return proximitySensor.get();
   }
 

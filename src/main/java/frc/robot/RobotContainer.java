@@ -19,6 +19,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightServo;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Auto;
+import frc.robot.commands.HopperBallDetector;
 import frc.robot.subsystems.ArticulatingHood;
 import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Drivetrain;
@@ -83,7 +84,8 @@ public class RobotContainer {
     articulatingHood.setDefaultCommand(
       new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
-    hopper.setDefaultCommand(new RunCommand(() -> hopper.setPower(0), hopper));
+    hopper.setDefaultCommand(new HopperBallDetector(hopper));
+
   }
 
   /**
@@ -124,7 +126,7 @@ public class RobotContainer {
       () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", 90)), articulatingHood));
 
     new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
-      new RunCommand(() -> hopper.setPower(.2)));
+      new RunCommand(() -> hopper.setFrontPower(.2)));
   }
 
 
