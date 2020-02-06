@@ -29,7 +29,7 @@ public class Hopper extends SubsystemBase {
   public Hopper(){
     hopperMotorFront = new TalonSRX(RobotMap.kHopperFront);
     hopperMotorBack = new TalonSRX(RobotMap.kHopperBack);
-    proximitySensor = new DigitalInput(RobotMap.proximitySensor);
+    proximitySensor = new DigitalInput(RobotMap.kproximitySensor);
 
     hopperMotorBack.setInverted(true);
     hopperMotorFront.setInverted(false);
