@@ -51,6 +51,7 @@ public class ArticulatingHood extends SubsystemBase {
   
   public void setHoodPosition(){
     double error = articulatingHood.getSelectedSensorPosition() - setPoint;
+    //Super special closed loop control :)
     if(Math.abs(articulatingHood.getSelectedSensorPosition() - setPoint) > 1){
       if(lastValue == articulatingHood.getSelectedSensorPosition()){
         addedValue += (Math.abs(error)/error * .5 * (Math.pow(Math.abs(error) / (ArticulatingHoodConstants.hoodMaximum - ArticulatingHoodConstants.hoodMinimum), .7))) + addedValue < 1.00 ? .01 : 0;
@@ -58,7 +59,7 @@ public class ArticulatingHood extends SubsystemBase {
         addedValue -= addedValue > 0 ? .01 : 0;
         lastValue = articulatingHood.getSelectedSensorPosition();
       }
-      articulatingHood.set(ControlMode.PercentOutput, (Math.abs(error)/error * .5 * (Math.pow(Math.abs(error) / (ArticulatingHoodConstants.hoodMaximum - ArticulatingHoodConstants.hoodMinimum), .7))) + addedValue);
+      articulatingHood.set(ControlMode.PercentOutput, Math.min((Math.abs(error)/error * .5 * (Math.pow(Math.abs(error) / (ArticulatingHoodConstants.hoodMaximum - ArticulatingHoodConstants.hoodMinimum), .7))) + addedValue, 1));
     }
     else {
       addedValue = 0;

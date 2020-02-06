@@ -21,7 +21,7 @@ public class Lidar extends SubsystemBase {
 
   private byte[] buffer;
   private byte[] delay;
-  private byte[] test ={0,0,0};
+  public double lidarDistance = 0;
 
   public Lidar() {
     buffer = new byte[2];
@@ -37,8 +37,9 @@ public class Lidar extends SubsystemBase {
     if(delay[0] == 1){
     } else {
       lidar.read(0x8f, 2, buffer);
-      SmartDashboard.putNumber("Lidar", Integer.toUnsignedLong(buffer[0] << 8) + Byte.toUnsignedInt(buffer[1]));
-    
+      lidarDistance = (Integer.toUnsignedLong(buffer[0] << 8) + Byte.toUnsignedInt(buffer[1])/2.54);
+      SmartDashboard.putNumber("Lidar", lidarDistance);
+      
     }
     
     

@@ -85,8 +85,8 @@ public class RobotContainer {
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
     intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", intake.intakeVelocity()), intake));
-    articulatingHood.setDefaultCommand(
-      new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood));
+    //articulatingHood.setDefaultCommand(
+      //new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood));
       //new RunCommand(() -> SmartDashboard.putNumber("Hood pos", articulatingHood.getHoodPosition()), articulatingHood));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
     hopper.setDefaultCommand(new RunCommand(() -> hopper.setPower(0), hopper));
@@ -127,7 +127,7 @@ public class RobotContainer {
         
     new JoystickButton(joystick2, OIConstants.kPositionHood)
       .whenPressed(new RunCommand(
-      () -> articulatingHood.setHoodSetPoint(((joystick2.getZ()+1) * (ArticulatingHoodConstants.hoodMaximum - ArticulatingHoodConstants.hoodMinimum)) + ArticulatingHoodConstants.hoodMinimum), articulatingHood));
+      () -> articulatingHood.setHoodSetPoint(((Math.max(lidar.lidarDistance, 1000) / 1000) * (ArticulatingHoodConstants.hoodMaximum - ArticulatingHoodConstants.hoodMinimum)) + ArticulatingHoodConstants.hoodMinimum), articulatingHood));
 
     new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
       new RunCommand(() -> hopper.setPower(.2)));
