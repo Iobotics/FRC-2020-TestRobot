@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.Timer;
 
 public class Lidar extends SubsystemBase {
   /**
@@ -37,7 +36,7 @@ public class Lidar extends SubsystemBase {
     if(delay[0] == 1){
     } else {
       lidar.read(0x8f, 2, buffer);
-      lidarDistance = (Integer.toUnsignedLong(buffer[0] << 8) + Byte.toUnsignedInt(buffer[1])/2.54);
+      lidarDistance = (Integer.toUnsignedLong(buffer[0] << 8) + Byte.toUnsignedInt(buffer[1])) / 2.54;
       SmartDashboard.putNumber("Lidar", lidarDistance);
       
     }
