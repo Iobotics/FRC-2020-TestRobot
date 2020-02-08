@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotMap;
 
@@ -23,16 +24,23 @@ public class Hopper extends SubsystemBase {
   private final TalonSRX hopperMotorFront;
   private final TalonSRX hopperMotorBack;
 
+  DigitalInput proximitySensor;
+
   public Hopper(){
     hopperMotorFront = new TalonSRX(RobotMap.kHopperFront);
     hopperMotorBack = new TalonSRX(RobotMap.kHopperBack);
+    proximitySensor = new DigitalInput(RobotMap.kproximitySensor);
 
     hopperMotorBack.setInverted(true);
     hopperMotorFront.setInverted(false);
   }
 
-  public void setPower(double power){
+  public void setFrontPower(double power){
     hopperMotorFront.set(ControlMode.PercentOutput, power);
-    hopperMotorBack.set(ControlMode.Follower, hopperMotorFront.getDeviceID());
   }
+
+  public boolean getBallSensorValue() {
+    return proximitySensor.get();
+  }
+
 }
