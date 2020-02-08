@@ -22,6 +22,7 @@ public class Intake extends SubsystemBase {
 
   public Intake() {
     intake = new TalonSRX(RobotMap.kIntake);
+    
     intake.config_kF(0,0,0);
     /*               ^ ^ ^
                      | | | Timeout in Ms
