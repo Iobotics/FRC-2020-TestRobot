@@ -41,6 +41,7 @@ public final class Constants {
         public static final int kHopperBack = 12;
 
         public static final int kLift = 10;
+        public static final int kLiftSlave = 15;
         public static final int kLimelightServo = 4;
 
         public static final int kproximitySensor = 0;

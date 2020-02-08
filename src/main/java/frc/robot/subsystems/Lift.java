@@ -8,7 +8,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,16 +22,18 @@ public class Lift extends SubsystemBase {
    */
 
   private final TalonSRX liftMaster;
+  private final TalonSRX liftSlave;
+
 
   public Lift() {
     liftMaster = new TalonSRX(RobotMap.kLift);
+    liftSlave = new TalonSRX(RobotMap.kLiftSlave);
+    liftSlave.follow(liftMaster);
     liftMaster.setInverted(false);
-    liftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
-
-    liftMaster.config_kF(0,0,0);
-    liftMaster.config_kP(0,0,0);
-    liftMaster.config_kI(0,0,0);
-    liftMaster.config_kD(0,0,0);
+    
+    liftMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+    liftMaster.configReverseLimitSwitchSource(RemoteLimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen, RobotMap.kLiftSlave);
+    liftMaster.overrideLimitSwitchesEnable(false);
   }
 
   public void setLift(double power){
