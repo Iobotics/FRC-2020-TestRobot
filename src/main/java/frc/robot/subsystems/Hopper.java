@@ -24,12 +24,14 @@ public class Hopper extends SubsystemBase {
   private final TalonSRX hopperMotorFront;
   private final TalonSRX hopperMotorBack;
 
-  DigitalInput proximitySensor;
+  DigitalInput proximitySensorIntake;
+  DigitalInput proximitySensorOuttake;
 
   public Hopper(){
     hopperMotorFront = new TalonSRX(RobotMap.kHopperFront);
     hopperMotorBack = new TalonSRX(RobotMap.kHopperBack);
-    proximitySensor = new DigitalInput(RobotMap.kproximitySensor);
+    proximitySensorIntake = new DigitalInput(RobotMap.kHopperIntakeProximitySensor);
+    proximitySensorOuttake = new DigitalInput(RobotMap.kHopperOuttakeProximitySensor);
 
     hopperMotorBack.setInverted(true);
     hopperMotorFront.setInverted(false);
@@ -39,8 +41,11 @@ public class Hopper extends SubsystemBase {
     hopperMotorFront.set(ControlMode.PercentOutput, power);
   }
 
-  public boolean getBallSensorValue() {
-    return proximitySensor.get();
+  public boolean getIntakeSensorValue() {
+    return proximitySensorIntake.get();
   }
 
+  public boolean getOuttakeSensorValue() {
+    return proximitySensorOuttake.get();
+  }
 }

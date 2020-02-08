@@ -46,6 +46,8 @@ public class IntakeArm extends SubsystemBase {
     potentUp = IntakeArmConstants.kPotentUp;
     potentDown = IntakeArmConstants.kPotentDown;
 
+    arm.configClosedloopRamp(IntakeArmConstants.kRampRate);
+
     if (arm.getSelectedSensorPosition() == potentUp) {
       isUp = true;
     } 

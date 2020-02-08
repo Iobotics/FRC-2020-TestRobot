@@ -43,7 +43,8 @@ public final class Constants {
         public static final int kLift = 10;
         public static final int kLimelightServo = 4;
 
-        public static final int kproximitySensor = 0;
+        public static final int kHopperIntakeProximitySensor = 0;
+        public static final int kHopperOuttakeProximitySensor = 1;
     }
 
     public static final class SensorMap{
@@ -96,9 +97,13 @@ public final class Constants {
         public static final double kD = 0;
         public static final double kF = 0;
 
+        //Time in seconds to reach maximum % Output
+        public static final double kRampRate = 10;
+
         //Values for the Up & Down position on the potentionmeter for position control
-        public static final double kPotentUp = 0;
-        public static final double kPotentDown = 0;
+        public static final double kPotentUp = 114;
+        public static final double kPotentDown = 10;
+
     } 
 
     public static final class ArticulatingHoodConstants {

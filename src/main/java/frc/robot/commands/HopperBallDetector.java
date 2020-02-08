@@ -30,7 +30,7 @@ public class HopperBallDetector extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (hopper.getBallSensorValue()) {
+    if (hopper.getIntakeSensorValue()) {
       hopper.setFrontPower(0.25);
     } else {
       hopper.setFrontPower(0);
