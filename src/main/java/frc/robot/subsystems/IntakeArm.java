@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -36,7 +37,6 @@ public class IntakeArm extends SubsystemBase {
     arm.config_kP(0, IntakeArmConstants.kP);
     arm.config_kI(0, IntakeArmConstants.kI);
     arm.config_kD(0, IntakeArmConstants.kD);
-    arm.config_kF(0, IntakeArmConstants.kF);
 
     arm.configSelectedFeedbackSensor(FeedbackDevice.Analog);
     arm.configFeedbackNotContinuous(true, 0);
@@ -65,7 +65,7 @@ public class IntakeArm extends SubsystemBase {
    * Puts the Intake Arm in the pre-set down position
    */
   public void setDown() {
-    arm.set(ControlMode.Position, potentDown);
+    arm.set(ControlMode.Position, potentDown, DemandType.ArbitraryFeedForward, arbitraryFeedForward(arm.getSelectedSensorPosition()));
     isUp = false;
   }
    /**
@@ -81,6 +81,24 @@ public class IntakeArm extends SubsystemBase {
   public void setUp() {
     arm.set(ControlMode.Position, potentUp);
     isUp = true;
+  }
+  /**
+   * Calculate the arbitary feed forward value using the arm location and pre-set kF
+   * @param encoderValue arm positon
+   * @return The value for arbitary feed forward
+   */
+  public double arbitraryFeedForward(int encoderValue) {
+    return IntakeArmConstants.kF*Math.cos(((encoderValue-10)/108)*(Math.PI/2));
+  }
+
+  /**
+   * Calculate the arbitary feed forward value using the arm location and given kF
+   * @param encoderValue arm position
+   * @param kF Value that works with cosign(position) to keep arm vertical
+   * @return feed forward value
+   */
+  public double arbitraryFeedForward(int encoderValue, double kF) {
+    return kF*Math.cos(((encoderValue-10)/108)*(Math.PI/2));
   }
 
   /**
