@@ -51,6 +51,7 @@ public class RobotContainer {
   private final Lift lift = new Lift();
   private final AHRS gyro = new AHRS();
   private final Hopper hopper = new Hopper();
+  private final Machinelearning machinelearning = new Machinelearning();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
@@ -71,7 +72,8 @@ public class RobotContainer {
     (new RunCommand(() -> limelight.printValues(), limelight));
 
     //limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
-    
+    machinelearning.setDefaultCommand(
+      new RunCommand(() -> machinelearning.printValues(),machinelearning));
     shooter.setDefaultCommand(
       new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
     drivetrain.setDefaultCommand
