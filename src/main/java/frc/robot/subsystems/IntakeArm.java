@@ -83,6 +83,8 @@ public class IntakeArm extends SubsystemBase {
     isUp = true;
   }
 
+  
+
   /**
    * Checks the location of the arm and moves in between the two positions accordingly (for one button teleop feature)
    */

@@ -24,8 +24,10 @@ import frc.robot.subsystems.ControlWheelSpinner;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeArm;
+import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.LEDStrip.LEDColor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -51,6 +53,7 @@ public class RobotContainer {
   private final Lift lift = new Lift();
   private final AHRS gyro = new AHRS();
   private final Hopper hopper = new Hopper();
+  private final LEDStrip ledStrip = new LEDStrip();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
@@ -84,7 +87,8 @@ public class RobotContainer {
       new HopperBallDetector(hopper),
       new RunCommand(() -> SmartDashboard.putBoolean("Hopper Full?", hopper.getOuttakeSensorValue()), hopper)
     ));
-
+    ledStrip.setDefaultCommand(
+      new RunCommand(() -> ledStrip.setColor(LEDColor.Green), ledStrip));
   }
 
   /**

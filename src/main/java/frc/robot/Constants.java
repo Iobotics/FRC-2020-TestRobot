@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -46,6 +44,8 @@ public final class Constants {
 
         public static final int kHopperIntakeProximitySensor = 0;
         public static final int kHopperOuttakeProximitySensor = 1;
+
+        public static final int kArduino = 5;
     }
 
     public static final class SensorMap{
@@ -112,6 +112,12 @@ public final class Constants {
         public static final double kI = SmartDashboard.getNumber("Hood kI", 0);
         public static final double kD = SmartDashboard.getNumber("Hood kD", 0);
         public static final double kF = 0;
+    }
+
+    public static final class LEDStripConstants {
+        public static final int kMaxRed = 255;
+        public static final int kMaxGreen = 255;
+        public static final int kMaxBlue = 255;
     }
     
 }
