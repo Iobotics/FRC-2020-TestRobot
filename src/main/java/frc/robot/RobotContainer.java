@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.SetLimelightPosition;
+import frc.robot.commands.TargetPowerCell;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightServo;
+import frc.robot.subsystems.MachineLearning;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Auto;
 import frc.robot.commands.HopperBallDetector;
@@ -42,7 +44,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Limelight limelight = new Limelight();
   private final LimelightServo limelightServo = new LimelightServo();
-  private final Drivetrain drivetrain = new Drivetrain();
+  private final Drivetrain drive = new Drivetrain();
   private final ControlWheelSpinner controlWheelSpinner = new ControlWheelSpinner();
   private final Intake intake = new Intake();
   private final IntakeArm intakeArm = new IntakeArm();
@@ -51,7 +53,7 @@ public class RobotContainer {
   private final Lift lift = new Lift();
   private final AHRS gyro = new AHRS();
   private final Hopper hopper = new Hopper();
-  private final Machinelearning machinelearning = new Machinelearning();
+  private final MachineLearning machineLearning = new MachineLearning();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
@@ -72,9 +74,9 @@ public class RobotContainer {
     (new RunCommand(() -> limelight.printValues(), limelight));
 
     //limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
-    machinelearning.setDefaultCommand(
-      new RunCommand(() -> machinelearning.printValues(),machinelearning));
-    shooter.setDefaultCommand(
+    machineLearning.setDefaultCommand(
+      new RunCommand(() -> machineLearning.printValues(),machineLearning));
+    /*shooter.setDefaultCommand(
       new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
@@ -86,7 +88,7 @@ public class RobotContainer {
       new HopperBallDetector(hopper),
       new RunCommand(() -> SmartDashboard.putBoolean("Hopper Full?", hopper.getOuttakeSensorValue()), hopper)
     ));
-
+*/
   }
 
   /**
@@ -96,8 +98,10 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
     new JoystickButton(joystick1, 1).whenPressed(
+      new TargetPowerCell(machineLearning, drive));
+
+    new JoystickButton(joystick1, 9).whenPressed(
       new SetLimelightPosition(limelight, limelightServo));
           
     new JoystickButton(joystick1, OIConstants.kSpinWheel).whileHeld(
@@ -138,6 +142,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new Auto(gyro, 90.0, drivetrain);
+    return null;//new Auto(gyro, 90.0, drivetrain);
   } 
 }

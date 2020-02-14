@@ -13,7 +13,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Machinelearning extends SubsystemBase {
+public class MachineLearning extends SubsystemBase {
   /**
    * Creates a new Machinelearning.
    */
@@ -23,19 +23,15 @@ public class Machinelearning extends SubsystemBase {
    private NetworkTableEntry boxes;
    private NetworkTableEntry number;
    private NetworkTableEntry classes;
-   private int MclassNumber =0;
-   private double[][] coordinatesTable;
+   private double[] defaultValue = new double [0];
 
-   double[] coordinates;
-   double[] defaultValue = new double [0];
-
-  public Machinelearning() {
+  public MachineLearning() {
     inst = NetworkTableInstance.getDefault(); //setting up network tables for limelight
     table = inst.getTable("ML");
     boxes = table.getEntry("boxes");
     number = table.getEntry("nb_objects");
     classes = table.getEntry("object_classes");
-    inst.startClientTeam(2438);
+    inst.startClientTeam(2439);
     inst.startDSClient();
 
   }
@@ -49,10 +45,6 @@ public class Machinelearning extends SubsystemBase {
    return false;
  }
 
- public String getClassName()
- {
-   return classes.getString("None");
- }
 
  public double getTargetNumber()
  {
@@ -64,26 +56,39 @@ public class Machinelearning extends SubsystemBase {
    return boxes.getDoubleArray(defaultValue);
  }
 
- public double[][] displayCoordinate()
- {
-   MclassNumber = (int)this.getTargetNumber();
-   for(int i =1; i<= MclassNumber; i++) {
-     for(int j = 0; j<=3; j++ )
-      coordinatesTable[i][j]= this.getCoordinate()[j];
-     }  
-     return coordinatesTable;
-   }
+
 
   public void printValues()
  {
   SmartDashboard.putNumber("DetectedNumber", this.getTargetNumber());
-  SmartDashboard.putString("ClassName", this.getClassName());
   SmartDashboard.putNumberArray("coordinates", this.getCoordinate());
-  for(int i=1; i<= (int)this.getTargetNumber(); i++){
-  SmartDashboard.putNumberArray("coordinateTable", this.displayCoordinate()[i]);
-  }
  }
 
+  public double findNearest()
+  {
+    int nearestPC=-1;
+    for(int i=0; i<4*this.getTargetNumber(); i+=4){
+      nearestPC=this.compareArea(nearestPC, i);
+    }
+    return this.getCoordinate()[nearestPC]+this.getCoordinate()[nearestPC+2];
+  }
+  public int compareArea(double a, double b)
+  {
+    if(a==-1)
+    {
+      return (int)b;
+    }
+    double[] coordinateTable = this.getCoordinate();
+    if(this.calDsitance(coordinateTable[(int)a], coordinateTable[(int)a+1], coordinateTable[(int)a+2], coordinateTable[(int)a+3])>=
+    this.calDsitance(coordinateTable[(int)b], coordinateTable[(int)b+1], coordinateTable[(int)b+2], coordinateTable[(int)b+3])){
+    return (int)a;
+    }
+    return (int)b;
+  }
+  public double calDsitance(double x1, double y1, double x2, double y2)
+  {
+    return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
+  }
   @Override
   public void periodic() {
     
