@@ -20,12 +20,18 @@ public class LEDStrip extends SubsystemBase {
 
   private I2C arduino;
 
+  private boolean enable = true;
+
   public enum LEDColor {
-    Red, Blue, Green
+    Red, Blue, Green, Off
   }
 
   public LEDStrip() {
     arduino = new I2C(Port.kMXP, RobotMap.kArduino);
+  }
+
+  public void setEnable (boolean enableVal) {
+    enable = enableVal;
   }
 
   /**
@@ -34,17 +40,13 @@ public class LEDStrip extends SubsystemBase {
    */
   public void setColor (LEDColor color) {
     if (color == LEDColor.Red) {
-      arduino.write(0, LEDStripConstants.kMaxRed);
-      arduino.write(0, 0);
-      arduino.write(0, 0);
+      setCustomColor(LEDStripConstants.kMaxRed, 0, 0);
     } else if (color == LEDColor.Blue) {
-      arduino.write(0, 0);
-      arduino.write(0, LEDStripConstants.kMaxBlue);
-      arduino.write(0, 0);
+      setCustomColor(0, LEDStripConstants.kMaxBlue, 0);
     } else if (color == LEDColor.Green) {
-      arduino.write(0, 0);
-      arduino.write(0, 0);
-      arduino.write(0, LEDStripConstants.kMaxGreen);
+      setCustomColor(0, 0, LEDStripConstants.kMaxGreen);
+    } else if (color == LEDColor.Off) {
+      setCustomColor(0, 0, 0);
     }
   }
 
@@ -53,11 +55,16 @@ public class LEDStrip extends SubsystemBase {
    * @param r Red value (0-255)
    * @param b Blue value (0-255)
    * @param g Green value (0-255)
+   * @return If the command was executed
    */
-  public void setCustomColor (int r, int b, int g) {
+  public boolean setCustomColor (int r, int b, int g) {
+    if (enable) {
       arduino.write(0, r);
       arduino.write(0, b);
       arduino.write(0, g);
+      return true;
+    }
+    return false;
   }
 
   @Override

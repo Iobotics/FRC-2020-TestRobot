@@ -16,6 +16,7 @@ import frc.robot.commands.SetLimelightPosition;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightServo;
+import frc.robot.subsystems.MachineLearning;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Auto;
 import frc.robot.commands.HopperBallDetector;
@@ -54,6 +55,7 @@ public class RobotContainer {
   private final AHRS gyro = new AHRS();
   private final Hopper hopper = new Hopper();
   private final LEDStrip ledStrip = new LEDStrip();
+  private final MachineLearning machinelearning = new MachineLearning();
 
   private final Joystick joystick1 = new Joystick(OIConstants.kJoystick1);
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
@@ -74,7 +76,8 @@ public class RobotContainer {
     (new RunCommand(() -> limelight.printValues(), limelight));
 
     //limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
-    
+    machinelearning.setDefaultCommand(
+      new RunCommand(() -> machinelearning.printValues(),machinelearning));
     shooter.setDefaultCommand(
       new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
     drivetrain.setDefaultCommand
