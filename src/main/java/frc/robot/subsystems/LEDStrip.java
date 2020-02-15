@@ -38,16 +38,18 @@ public class LEDStrip extends SubsystemBase {
    * Write a pre-set value to the arduino 
    * @param color The pre-set color
    */
-  public void setColor (LEDColor color) {
+  public boolean setColor (LEDColor color) {
     if (color == LEDColor.Red) {
-      setCustomColor(LEDStripConstants.kMaxRed, 0, 0);
+      return setCustomColor(LEDStripConstants.kMaxRed, 0, 0);
     } else if (color == LEDColor.Blue) {
-      setCustomColor(0, LEDStripConstants.kMaxBlue, 0);
+     return setCustomColor(0, LEDStripConstants.kMaxBlue, 0);
     } else if (color == LEDColor.Green) {
-      setCustomColor(0, 0, LEDStripConstants.kMaxGreen);
+     return setCustomColor(0, 0, LEDStripConstants.kMaxGreen);
     } else if (color == LEDColor.Off) {
-      setCustomColor(0, 0, 0);
+     return setCustomColor(0, 0, 0);
     }
+
+    return false;
   }
 
   /**
@@ -55,7 +57,7 @@ public class LEDStrip extends SubsystemBase {
    * @param r Red value (0-255)
    * @param b Blue value (0-255)
    * @param g Green value (0-255)
-   * @return If the command was executed
+   * @return If the command was executed, true for execution
    */
   public boolean setCustomColor (int r, int b, int g) {
     if (enable) {

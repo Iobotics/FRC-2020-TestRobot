@@ -38,6 +38,9 @@ public final class Constants {
         public static final int kHopperFront = 8;
         public static final int kHopperBack = 12;
 
+        public static final int kIndexerMaster = 0;
+        public static final int kIndexerSlave = 0;
+
         public static final int kLift = 10;
         public static final int kLiftSlave = 15;
         public static final int kLimelightServo = 4;

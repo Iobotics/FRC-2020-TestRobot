@@ -132,7 +132,7 @@ public class RobotContainer {
       () -> articulatingHood.setHoodSetPoint(SmartDashboard.getNumber("Hood Setpoint", 90)), articulatingHood));
 
     new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
-      new RunCommand(() -> hopper.setFrontPower(.2)));
+      new RunCommand(() -> hopper.setHopperPower(.2)));
   }
 
 
