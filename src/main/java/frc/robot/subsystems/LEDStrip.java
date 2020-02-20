@@ -23,7 +23,7 @@ public class LEDStrip extends SubsystemBase {
   private boolean enable = true;
 
   public enum LEDColor {
-    Red, Blue, Green, Off
+    Red, Orange, Yellow, Green, Blue, Indigo, Violet, Off
   }
 
   public LEDStrip() {
@@ -41,12 +41,20 @@ public class LEDStrip extends SubsystemBase {
   public boolean setColor (LEDColor color) {
     if (color == LEDColor.Red) {
       return setCustomColor(LEDStripConstants.kMaxRed, 0, 0);
-    } else if (color == LEDColor.Blue) {
-     return setCustomColor(0, LEDStripConstants.kMaxBlue, 0);
+    } else if (color == LEDColor.Orange) {
+      return setCustomColor(LEDStripConstants.kMaxRed, 0, 165);
+    } else if (color == LEDColor.Yellow) {
+      return setCustomColor(LEDStripConstants.kMaxRed, 0, LEDStripConstants.kMaxGreen);
     } else if (color == LEDColor.Green) {
-     return setCustomColor(0, 0, LEDStripConstants.kMaxGreen);
+      return setCustomColor(0, 0, LEDStripConstants.kMaxGreen);
+    } else if (color == LEDColor.Blue) {
+      return setCustomColor(0, LEDStripConstants.kMaxBlue, 0);
+    } else if (color == LEDColor.Indigo) {
+      return setCustomColor(0, LEDStripConstants.kMaxBlue, 128); //Is this the right color? I couldn't figure out what indigo was.
+    } else if (color == LEDColor.Violet) {
+      return setCustomColor(127, LEDStripConstants.kMaxBlue, 0);
     } else if (color == LEDColor.Off) {
-     return setCustomColor(0, 0, 0);
+      return setCustomColor(0, 0, 0);
     }
 
     return false;
