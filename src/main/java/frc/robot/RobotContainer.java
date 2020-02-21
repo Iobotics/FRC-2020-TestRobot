@@ -74,8 +74,8 @@ public class RobotContainer {
     (new RunCommand(() -> limelight.printValues(), limelight));
 
     //limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
-    machineLearning.setDefaultCommand(
-      new RunCommand(() -> machineLearning.printValues(),machineLearning));
+    machineLearning.setDefaultCommand
+    (new RunCommand(() -> machineLearning.printValues(),machineLearning));
     /*shooter.setDefaultCommand(
       new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
     drivetrain.setDefaultCommand
@@ -98,9 +98,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick1, 1).whenPressed(
+    new JoystickButton(joystick1, OIConstants.kTargetPW).whenHeld(
       new TargetPowerCell(machineLearning, drive));
-
+/*
     new JoystickButton(joystick1, 9).whenPressed(
       new SetLimelightPosition(limelight, limelightServo));
           
@@ -132,6 +132,7 @@ public class RobotContainer {
 
     new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
       new RunCommand(() -> hopper.setFrontPower(.2)));
+      */
   }
 
 
