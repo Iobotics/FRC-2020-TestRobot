@@ -6,13 +6,13 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.lang.Math;
 
 public class MachineLearning extends SubsystemBase {
   /**
@@ -25,6 +25,11 @@ public class MachineLearning extends SubsystemBase {
    private NetworkTableEntry number;
    private NetworkTableEntry classes;
    private double[] defaultValue = new double[] {0,0,0,0,0,0,0,0,0,0,0,0,0};
+   private double[] coornidates = new double[]{0,0,0,0,0,0,0,0};
+   private double error = 0; 
+   private double y = 0;   
+   private double Sx = 0;
+
 
   public MachineLearning() {
     inst = NetworkTableInstance.getDefault(); //setting up network tables for limelight
@@ -54,55 +59,76 @@ public class MachineLearning extends SubsystemBase {
 
  public double[] getCoordinate()
  {
-   for(int i=0; i<this.getTargetNumber()*4; i++)
-   {
-    if(this.getTargetNumber()==0){
-    return defaultValue;
-    }
-    defaultValue[i]=boxes.getDoubleArray(defaultValue)[i];
-   }
+    return boxes.getDoubleArray(defaultValue);
+}
 
-   //defaultValue = boxes.getDoubleArray(defaultValue);
-
-   return defaultValue;
- }
-
-
+  
 
 
   public void printValues()
  {
    // double[] xbox = this.getCoordinate();
-    if(this.getTargetNumber()!=0.0){
-
-  SmartDashboard.putNumber("DetectedNumber", this.getTargetNumber());
-  
-  SmartDashboard.putNumber("NearestId", this.findNearest());       
- }
-}
-
-  public double findNearest()
-  {
-  
-    int nearestPC =0;
-    
-   if(this.getTargetNumber()==0.0)
+   if(this.getCoordinate().length!=0)
    {
-     return 0;
-   }
-   //else if(this.getTargetNumber()==1)
-    
-      return this.getCoordinate()[0]+this.getCoordinate()[2];
-    
-  } 
-    /*
-    else{
-    for(int i=0; i<4*this.getTargetNumber(); i+=4){
-      nearestPC=this.compareArea(nearestPC, i);
+  coornidates=this.getCoordinate();
     }
+    int j = this.findNearest();
+
+    double x1 = coornidates[0]-180;
+    double y1 = 280-coornidates[1];
+    double x2 = coornidates[2]-180;
+    double y2 = 280-coornidates[3];
+    double x = 0.5*(x1+x2);
+    y = 0.5*(y1+y2);
+    Sx = (1.248*(y2/260)+1)*x;
+   
+  SmartDashboard.putNumber("DetectedNumber", this.getTargetNumber());
+  SmartDashboard.putNumber("x1", x1); 
+  SmartDashboard.putNumber("y1", y1);
+  SmartDashboard.putNumber("x2", x2);
+  SmartDashboard.putNumber("y2", y2);
+  SmartDashboard.putNumber("x", 0.5*(x1+x2)); 
+  SmartDashboard.putNumber("y", 0.5*(y1+y2));
+  SmartDashboard.putNumber("Scaled X",Sx);
+
+
+
+  
+ // Timer.delay(0.5);
+
+
+   }
+  public int findNearest()
+  {
+    int nearestPC=0;
+    for(int i=0; i<this.getCoordinate().length/4; i++)
+    {
+      if(this.findDistance(i)>this.findDistance(nearestPC))
+      nearestPC = i;
+    }
+    return nearestPC;
   }
-    return this.getCoordinate()[nearestPC]+this.getCoordinate()[nearestPC+2];
-  }*/
+  public double findDistance(int i)
+  {
+    if (i==0)
+    return -200;
+    if(this.getCoordinate().length!=0)
+   {
+  coornidates=this.getCoordinate();
+    }
+    double x1 = coornidates[i]-180;
+    double y1 = 280-coornidates[i+1];
+    double x2 = coornidates[i+2]-180;
+    double y2 = 280-coornidates[i+3];
+    double x = 0.5*(x1+x2);
+    double y = 0.5*(y1+y2);
+    double Sx = (1.248*(y2/260)+1)*x;
+    return y;
+  }
+
+
+ 
+ 
  /* public int compareArea(double a, double b)
   {
     double[] coordinateTable = this.getCoordinate();
@@ -113,13 +139,16 @@ public class MachineLearning extends SubsystemBase {
     return (int)b;
   }
   */
-  public double targetPW(){
-    double coordinate1 = 0.0;
-    if(this.getTargetNumber()==1)
-    coordinate1 = this.getCoordinate()[0]+this.getCoordinate()[2];
+  public double giveError()
+  {
+    if(this.getTargetNumber()>0)
+    error = Math.atan(Sx/y);
 
-    return coordinate1;
+    return error;
+
+    
   }
+  
   public double calDsitance(double x1, double y1, double x2, double y2)
   {
     return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);

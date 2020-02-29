@@ -22,11 +22,11 @@ public class TargetPowerCell extends PIDCommand {
   public TargetPowerCell(MachineLearning machineLearning, Drivetrain drive) {
     super(
         // The controller that the command will use
-        new PIDController(0.003, 0, 0),
+        new PIDController(0.007, 0, 0),
         // This should return the measurement
-        machineLearning::targetPW,
+        machineLearning::giveError,
         // This should return the setpoint (can also be a constant)
-        () -> 385,
+        () -> 0,
         // This uses the output
         output -> {
           drive.setTank(-output, -output);

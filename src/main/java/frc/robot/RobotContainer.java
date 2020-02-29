@@ -80,7 +80,6 @@ public class RobotContainer {
       new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
-    intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", intake.intakeVelocity()), intake));
     articulatingHood.setDefaultCommand(
       new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
@@ -89,6 +88,8 @@ public class RobotContainer {
       new RunCommand(() -> SmartDashboard.putBoolean("Hopper Full?", hopper.getOuttakeSensorValue()), hopper)
     ));
 */
+  intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", intake.intakeVelocity()), intake));
+
   }
 
   /**
@@ -98,7 +99,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick1, OIConstants.kTargetPW).whenHeld(
+    new JoystickButton(joystick1, OIConstants.kTargetPW).whenPressed(
+
+
       new TargetPowerCell(machineLearning, drive));
 /*
     new JoystickButton(joystick1, 9).whenPressed(
@@ -109,10 +112,7 @@ public class RobotContainer {
         () -> controlWheelSpinner.spin(0.5), 
         () -> controlWheelSpinner.spin(0), controlWheelSpinner));
         
-    new JoystickButton(joystick1, OIConstants.kRunIntake).whileHeld(
-      new StartEndCommand(
-        () -> intake.setIntake((joystick1.getZ() + 1)/2),
-        () -> intake.setIntake(0), intake));
+    
     new JoystickButton(joystick1, OIConstants.kToggleIntakeArm).whileHeld(
       new RunCommand(
         () -> intakeArm.toggleButton(), intakeArm));
@@ -133,6 +133,10 @@ public class RobotContainer {
     new JoystickButton(joystick2, OIConstants.kRunHopper).whileHeld(
       new RunCommand(() -> hopper.setFrontPower(.2)));
       */
+      new JoystickButton(joystick1, OIConstants.kRunIntake).whileHeld(
+      new StartEndCommand(
+        () -> intake.setIntake(joystick1.getZ()),
+        () -> intake.setIntake(0), intake));
   }
 
 
