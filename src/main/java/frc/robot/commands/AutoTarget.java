@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.RobotContainer;
-import frc.robot.Utilities.Utils;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.MachineLearning;
 
@@ -39,7 +38,7 @@ public class AutoTarget extends PIDCommand {
         // This should return the setpoint (can also be a constant)
         ()-> machineLearning.giveError(),
         // This uses the output
-        output -> {drive.setTank(output , output );
+        output -> {drive.setTank(output , output);
           // Use the output here
         });
         this.gyro = gyro;
@@ -50,11 +49,11 @@ public class AutoTarget extends PIDCommand {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished() { //return true if PW is at the center
     double gyroAngles [] = {0, 0};
     gyroAngles[1] = angleError;
     gyroAngles[0] = gyro.getAngle();
-    if ((PID.getPositionError() < 1 || PID.getPositionError() > -1) && (Math.abs(gyroAngles[0] - gyroAngles[1]) < 1)){
+    if ((PID.getPositionError() < 1 || PID.getPositionError() > -1) && (Math.abs(gyroAngles[0] - gyroAngles[1]) < 1)){ 
       return true;
       
     }else{

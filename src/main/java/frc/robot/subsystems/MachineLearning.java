@@ -22,24 +22,22 @@ public class MachineLearning extends SubsystemBase {
    */
 
    private NetworkTable table;
-   private Gyro gyro;
    private NetworkTableInstance inst;
    private NetworkTableEntry boxes;
    private NetworkTableEntry number;
-   private NetworkTableEntry classes;
    private double[] defaultValue = new double[] {0,0,0,0,0,0,0,0,0,0,0,0,0};
-   private double[] coornidates = new double[]{0,0,0,0,0,0,0,0};
-   public  double PWerror = 0; 
-   private double y = 0;   
-   private double Sx = 0;
+   private double[] coornidates = new double[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    //initialize variables
+   public  double PWerror = 0; //angle of error in degrees
+   private double y = 0;  //y coordinate
+   private double Sx = 0; //scaled x coordinate relative to bot
 
 
   public MachineLearning() {
-    inst = NetworkTableInstance.getDefault(); //setting up network tables for limelight
+    inst = NetworkTableInstance.getDefault(); //setting up network tables for Machinelearning
     table = inst.getTable("ML");
     boxes = table.getEntry("boxes");
     number = table.getEntry("nb_objects");
-    classes = table.getEntry("object_classes");
     inst.startClientTeam(2439);
     inst.startDSClient();
 
@@ -70,99 +68,51 @@ public class MachineLearning extends SubsystemBase {
 
   public void printValues()
  {
-   // double[] xbox = this.getCoordinate();
-   if(this.getCoordinate().length!=0)
+   if(this.getCoordinate().length!=0) // Use length of coordinate array instead of getTargetNumber to avoid index exception 
    {
   coornidates=this.getCoordinate();
     }
-    int j = this.findNearest();
-
-    double x1 = coornidates[0]-180;
-    double y1 = 280-coornidates[1];
-    double x2 = coornidates[2]-180;
-    double y2 = 280-coornidates[3];
+    int n = this.findNearest(); // get id*4 of the nearest power cell
+    double x1 = coornidates[n]-180;
+    double y1 = 280-coornidates[n+1];
+    double x2 = coornidates[n+2]-180;
+    double y2 = 280-coornidates[n+3];
     double x = 0.5*(x1+x2);
     y = 0.5*(y1+y2);
-    Sx = (1.248*(y2/260)+1)*x;
-   
+    Sx = (1.248*(y2/260)+1)*x;  // Scaling X value relative to the bot (image rectification)
    
   SmartDashboard.putNumber("DetectedNumber", this.getTargetNumber());
-  SmartDashboard.putNumber("x1", x1); 
-  SmartDashboard.putNumber("y1", y1);
-  SmartDashboard.putNumber("x2", x2);
-  SmartDashboard.putNumber("y2", y2);
-  SmartDashboard.putNumber("x", 0.5*(x1+x2)); 
-  SmartDashboard.putNumber("y", 0.5*(y1+y2));
-  SmartDashboard.putNumber("Scaled X",this.giveError());
-  SmartDashboard.putNumber("Scaled y",PWerror);
-
-
-
-
-
-
-  
- 
-
-
+  SmartDashboard.putNumber("PW:x",Sx); 
+  SmartDashboard.putNumber("PW:y",y);
+  SmartDashboard.putNumber("PW:AOE",PWerror); //angle of error
    }
+
+
   public int findNearest()
   {
-    int nearestPC=0;
-    for(int i=0; i<this.getCoordinate().length/4; i++)
-    {
-      if(this.findDistance(i)>this.findDistance(nearestPC))
-      nearestPC = i;
+    if(this.getTargetNumber()==1){
+      return 0;
     }
-    return nearestPC;
-  }
-  public double findDistance(int i)
-  {
-    if (i==0)
-    return -200;
     if(this.getCoordinate().length!=0)
    {
   coornidates=this.getCoordinate();
     }
-    double x1 = coornidates[i]-180;
-    double y1 = 280-coornidates[i+1];
-    double x2 = coornidates[i+2]-180;
-    double y2 = 280-coornidates[i+3];
-    double x = 0.5*(x1+x2);
-    double y = 0.5*(y1+y2);
-    double Sx = (1.248*(y2/260)+1)*x;
-    return y;
-  }
-
-
- 
- 
- /* public int compareArea(double a, double b)
-  {
-    double[] coordinateTable = this.getCoordinate();
-    if(this.calDsitance(coordinateTable[(int)a], coordinateTable[(int)a+1], coordinateTable[(int)a+2], coordinateTable[(int)a+3])>=
-    this.calDsitance(coordinateTable[(int)b], coordinateTable[(int)b+1], coordinateTable[(int)b+2], coordinateTable[(int)b+3])){
-    return (int)a;
+    int nearestPC=0;
+    for(int i=0; i<this.getCoordinate().length/4; i++) // looping and looking for the smallest y coordinate value
+    {
+      if(coornidates[i*4+1]+coornidates[i*4+3]<coornidates[nearestPC*4+1]+coornidates[nearestPC*4+3]) 
+      nearestPC = i;
     }
-    return (int)b;
+    return nearestPC*4; 
   }
-  */
+
+
   public double giveError()
   {
     
-
-    PWerror = Math.atan(Sx/y)/2/3.14*180;
-
+    PWerror = Math.atan(Sx/y)/2/3.14*180; //calculate angle of error
     return PWerror;
-
-    
   }
-  
-  public double calDsitance(double x1, double y1, double x2, double y2)
-  {
-    return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
-  }
-  
 
   @Override
   public void periodic() {
