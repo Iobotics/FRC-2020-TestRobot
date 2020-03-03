@@ -6,10 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.lang.Math;
@@ -20,13 +22,14 @@ public class MachineLearning extends SubsystemBase {
    */
 
    private NetworkTable table;
+   private Gyro gyro;
    private NetworkTableInstance inst;
    private NetworkTableEntry boxes;
    private NetworkTableEntry number;
    private NetworkTableEntry classes;
    private double[] defaultValue = new double[] {0,0,0,0,0,0,0,0,0,0,0,0,0};
    private double[] coornidates = new double[]{0,0,0,0,0,0,0,0};
-   private double error = 0; 
+   public  double PWerror = 0; 
    private double y = 0;   
    private double Sx = 0;
 
@@ -82,6 +85,7 @@ public class MachineLearning extends SubsystemBase {
     y = 0.5*(y1+y2);
     Sx = (1.248*(y2/260)+1)*x;
    
+   
   SmartDashboard.putNumber("DetectedNumber", this.getTargetNumber());
   SmartDashboard.putNumber("x1", x1); 
   SmartDashboard.putNumber("y1", y1);
@@ -89,12 +93,16 @@ public class MachineLearning extends SubsystemBase {
   SmartDashboard.putNumber("y2", y2);
   SmartDashboard.putNumber("x", 0.5*(x1+x2)); 
   SmartDashboard.putNumber("y", 0.5*(y1+y2));
-  SmartDashboard.putNumber("Scaled X",Sx);
+  SmartDashboard.putNumber("Scaled X",this.giveError());
+  SmartDashboard.putNumber("Scaled y",PWerror);
+
+
+
 
 
 
   
- // Timer.delay(0.5);
+ 
 
 
    }
@@ -141,10 +149,11 @@ public class MachineLearning extends SubsystemBase {
   */
   public double giveError()
   {
-    if(this.getTargetNumber()>0)
-    error = Math.atan(Sx/y);
+    
 
-    return error;
+    PWerror = Math.atan(Sx/y)/2/3.14*180;
+
+    return PWerror;
 
     
   }

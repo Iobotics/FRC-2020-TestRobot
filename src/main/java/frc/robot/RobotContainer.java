@@ -20,6 +20,7 @@ import frc.robot.subsystems.LimelightServo;
 import frc.robot.subsystems.MachineLearning;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Auto;
+import frc.robot.commands.AutoTarget;
 import frc.robot.commands.HopperBallDetector;
 import frc.robot.subsystems.ArticulatingHood;
 import frc.robot.subsystems.ControlWheelSpinner;
@@ -29,8 +30,10 @@ import frc.robot.subsystems.IntakeArm;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -59,6 +62,9 @@ public class RobotContainer {
   private final Joystick joystick2 = new Joystick(OIConstants.kJoystick2);
 
   private final XboxController xboxController = new XboxController(OIConstants.kXboxController);
+  public double angleInitial = 0;
+  private double angleErrors = 0;
+  private double angle;
   public double getGyro(){
     return gyro.getAngle();
   }
@@ -99,10 +105,18 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
     new JoystickButton(joystick1, OIConstants.kTargetPW).whenPressed(
+      new SequentialCommandGroup(
+        new InstantCommand(()-> gyro.reset()),
+        new InstantCommand(()-> angleInitial = this.getGyro()),
+        new InstantCommand(()-> angleErrors = machineLearning.giveError()),
+        new InstantCommand(()-> SmartDashboard.putNumber("angleerros", angleErrors)),
+        new AutoTarget(gyro, angleErrors, angleInitial , drive, machineLearning)
+      )
+    );
 
-
-      new TargetPowerCell(machineLearning, drive));
+      //new TargetPowerCell(machineLearning, drive));
 /*
     new JoystickButton(joystick1, 9).whenPressed(
       new SetLimelightPosition(limelight, limelightServo));
