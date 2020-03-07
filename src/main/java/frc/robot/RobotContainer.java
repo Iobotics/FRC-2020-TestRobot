@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.SetLimelightPosition;
-import frc.robot.commands.TargetPowerCell;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightServo;
@@ -52,6 +51,7 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final IntakeArm intakeArm = new IntakeArm();
   private final Shooter shooter = new Shooter();
+  private final Drivetrain drivetrain = new Drivetrain();
   private final ArticulatingHood articulatingHood = new ArticulatingHood();
   private final Lift lift = new Lift();
   private final AHRS gyro = new AHRS();
@@ -63,8 +63,7 @@ public class RobotContainer {
 
   private final XboxController xboxController = new XboxController(OIConstants.kXboxController);
   public double angleInitial = 0;
-  private double angleErrors = 0;
-  private double angle;
+  public static double angleErrors = 0;
   public double getGyro(){
     return gyro.getAngle();
   }
@@ -78,14 +77,16 @@ public class RobotContainer {
     configureButtonBindings();
     limelight.setDefaultCommand
     (new RunCommand(() -> limelight.printValues(), limelight));
-
+    
     //limelightServo.setDefaultCommand(new SetLimelightPosition(limelight, limelightServo));
     machineLearning.setDefaultCommand
     (new RunCommand(() -> machineLearning.printValues(),machineLearning));
     /*shooter.setDefaultCommand(
       new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
+      */
     drivetrain.setDefaultCommand
       (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
+      /*
     articulatingHood.setDefaultCommand(
       new RunCommand(() -> articulatingHood.setHoodPosition(), articulatingHood));
     //controlWheelSpinner.setDefaultCommand(new RunCommand(() -> controlWheelSpinner.spin(joystick1.getX()), controlWheelSpinner));
@@ -107,7 +108,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     new JoystickButton(joystick1, OIConstants.kTargetPW).whenPressed(
-      new SequentialCommandGroup(
+        new SequentialCommandGroup(
+        new InstantCommand(()-> AutoTarget.counter=0),
         new InstantCommand(()-> gyro.reset()),
         new InstantCommand(()-> angleInitial = this.getGyro()),
         new InstantCommand(()-> angleErrors = machineLearning.giveError()),

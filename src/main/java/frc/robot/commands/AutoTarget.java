@@ -10,6 +10,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
@@ -26,19 +27,26 @@ public class AutoTarget extends PIDCommand {
   Timer time = new Timer();
   AHRS gyro;
   MachineLearning machineLearning = new MachineLearning();
- double angleError = machineLearning.giveError();
+  double angleError = machineLearning.giveError();
+  public static int counter =0;
+  
   
 
   public AutoTarget(AHRS gyro, double angle, double initialAngle, Drivetrain drive, MachineLearning machineLearning) {
     super(
         // The controller that the command will use
-        PID = new PIDController(0.0135 * 0.8, 0,0),
+        PID = new PIDController(0.0135 * 0.8, 0, 0.0135*1.4/10),
+        //(0.0135 * 0.6, 1.2 * (0.0135 / 1.4), (0.0135 * 1.4 * 3)/40),
+        
+        //(0.0135 * 0.45, 0.54*0.0135 / 1.4, 0),
         // This should return the measurement
         ()-> gyro.getAngle(),
         // This should return the setpoint (can also be a constant)
-        ()-> machineLearning.giveError(),
+        ()-> RobotContainer.angleErrors,
         // This uses the output
-        output -> {drive.setTank(output , output);
+        output -> {;
+          drive.setTank(output+output/Math.abs(output)*0.124,output+output/Math.abs(output)*0.124);
+          // Math.abs(RobotContainer.angleErrors)/RobotContainer.angleErrors*0.1255,output+RobotContainer.angleErrors/Math.abs(RobotContainer.angleErrors)*0.1255
           // Use the output here
         });
         this.gyro = gyro;
@@ -50,15 +58,20 @@ public class AutoTarget extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() { //return true if PW is at the center
-    double gyroAngles [] = {0, 0};
-    gyroAngles[1] = angleError;
-    gyroAngles[0] = gyro.getAngle();
-    if ((PID.getPositionError() < 1 || PID.getPositionError() > -1) && (Math.abs(gyroAngles[0] - gyroAngles[1]) < 1)){ 
+   
+
+   counter++;
+    SmartDashboard.putNumber("pidError", angleError);
+    SmartDashboard.putNumber("pidErrorVelocity", angleError);
+
+/*Math.abs(PID.getPositionError()) < 5*/ 
+    if (((Math.abs(PID.getPositionError()) <1 ) && (Math.abs(PID.getVelocityError())< 0.1))){ 
       return true;
       
-    }else{
-      
+    }//else if((Math.abs(PID.getVelocityError())< 0.5) &&(machineLearning.getCoordinate().length/4==0)) {
+     // (int)(2/5*Math.abs(RobotContainer.angleErrors)+18)
+    //}
     return false;
   }
 }
-}
+
