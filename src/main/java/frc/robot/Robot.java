@@ -32,7 +32,11 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    SmartDashboard.getNumber("Hood kP", 0);
+    SmartDashboard.getNumber("Hood kI", 0);
+    SmartDashboard.getNumber("Hood kD", 0);
     SmartDashboard.putNumber("Shooter Output", 0);
+    SmartDashboard.putNumber("Hood Setpoint", 320);
   }
 
   /**
@@ -66,7 +70,7 @@ public class Robot extends TimedRobot {
    * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
    */
   @Override
-  public void autonomousInit() {
+   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -114,5 +118,6 @@ public class Robot extends TimedRobot {
 
     
   }
+  
 }
 

@@ -10,50 +10,55 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   /**
    * Creates a new Limelight.
    */
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry tx = table.getEntry("tx");
-  NetworkTableEntry ty = table.getEntry("ty");
-  NetworkTableEntry ta = table.getEntry("ta");
-  NetworkTableEntry ledMode = table.getEntry("ledMode");
+  private  NetworkTable table; 
+  private  NetworkTableInstance inst;
+  private  NetworkTableEntry tv;
+  private  NetworkTableEntry tx;
+  private  NetworkTableEntry ty;
+  private  NetworkTableEntry ta;
 
-  double x;
-  double y;
-  double area;
+  private  double x = 0;
+  private  double y = 0;
+  private  double area = 0;
 
   public Limelight()  {
      ledMode.setNumber(1);
   }
 
-  public void printValues(){
-    x = tx.getDouble(0.0);
-    y = ty.getDouble(0.0);
-    area = ta.getDouble(0.0);
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimeilightY", y);
-    SmartDashboard.putNumber("LimeLightArea", area);
+  public double getTV(){ //gets the raw double TV value
+    return tv.getDouble(0.0);
   }
-  public double getTX(){
+  public double getTA() //returns area of the target on the limelight 
+  {
+    area = ta.getDouble(0.0); // mathwork needed base on height of bot and angle of camera
+    return area;
+
+  }
+  public double getTX(){ //returns distance in degrees from the target
     x = tx.getDouble(0.0);
     return x;
   }
 
-  public double getTY(){
+  public double getTY(){ //return the y displacement in degrees from the target
     y = ty.getDouble(0.0);
     return y;
   }
 
-  public double getTA(){
-    area = ta.getDouble(0.0);
-    return area;
+  public void printValues(){ //outprints all limelight values to the Smartdashboard 
+    SmartDashboard.putNumber("LimelightX", this.getTX());
+    SmartDashboard.putNumber("LimeilightY",this.getTY());
+    SmartDashboard.putBoolean("Limelight TV", this.isTargetDetected());
+    SmartDashboard.putNumber("LimeLightArea", this.getTA());
   }
+
+  
 
   @Override
   public void periodic() {

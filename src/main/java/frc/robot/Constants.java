@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -27,14 +29,26 @@ public final class Constants {
         public static final int kControlPanelSpinner = 6;
 
         public static final int kIntake = 9;
+        public static final int kIntakeArm = 0;
 
-        public static final int kShooterArm = 0;
         public static final int kLeftShooter = 7;
         public static final int kRightShooter = 8;
         public static final int kArticulatingHood = 5;
 
-        public static final int kLift = 10;
+        public static final int kHopperFront = 8;
+        public static final int kHopperBack = 12;
 
+        public static final int kIndexerMaster = 0;
+        public static final int kIndexerSlave = 0;
+
+        public static final int kLift = 10;
+        public static final int kLiftSlave = 15;
+        public static final int kLimelightServo = 4;
+
+        public static final int kHopperIntakeProximitySensor = 0;
+        public static final int kHopperOuttakeProximitySensor = 1;
+
+        public static final int kArduino = 5;
     }
 
     public static final class SensorMap{
@@ -51,13 +65,18 @@ public final class Constants {
         //Joystick 1
         public static final int kRunIntake = 1;
         public static final int kSpinWheel = 2;
-        public static final int kHoodPosition = 9;
+        public static final int kAutoAlign = 3;
+        public static final int kToggleIntakeArm = 4;
+        public static final int kSetLimelightPosition = 5; 
+        public static final int kPositionHood = 9;
 
         //Joystick 2
         public static final int kSetLift = 1;
+        public static final int kRunHopper = 3;
 
         //Xbox controller
         public static final int kRunShooter = 6;
+		
     }
 
     public static final class ShooterConstants{
@@ -76,11 +95,33 @@ public final class Constants {
         public static final double kF = 0;
     }
 
-    public static final class ShooterArmConstants {
+    public static final class IntakeArmConstants {
         public static final double kP = 0;
         public static final double kI = 0;
         public static final double kD = 0;
-        public static final double kF = 0;  
+        
+        public static final double kF = 0;
+
+        //Time in seconds to reach maximum % Output
+        public static final double kRampRate = 10;
+
+        //Values for the Up & Down position on the potentionmeter for position control
+        public static final double kPotentUp = 114;
+        public static final double kPotentDown = 10;
+
     } 
+
+    public static final class ArticulatingHoodConstants {
+        public static final double kP = SmartDashboard.getNumber("Hood kP", 0);
+        public static final double kI = SmartDashboard.getNumber("Hood kI", 0);
+        public static final double kD = SmartDashboard.getNumber("Hood kD", 0);
+        public static final double kF = 0;
+    }
+
+    public static final class LEDStripConstants {
+        public static final int kMaxRed = 255;
+        public static final int kMaxGreen = 255;
+        public static final int kMaxBlue = 255;
+    }
     
 }
