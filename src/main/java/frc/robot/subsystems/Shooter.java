@@ -45,7 +45,7 @@ public class Shooter extends SubsystemBase {
     //Cofigure the PID values of the shoot
     //The first value is the slot, second is constant, third is timeout
     leftShooter.config_kF(0,ShooterConstants.kFF,0);
-    leftShooter.config_kP(0,0.085,0);
+    leftShooter.config_kP(0,0.07,0);
     leftShooter.config_kI(0,0,0);
     leftShooter.config_kD(0,0,0);
 
@@ -72,5 +72,6 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter vel", getRPM());
+    SmartDashboard.putNumber("Shooter Voltage", leftShooter.getMotorOutputVoltage());
   }
 }

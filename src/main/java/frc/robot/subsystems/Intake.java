@@ -21,10 +21,14 @@ public class Intake extends SubsystemBase {
    * Creates a new Intake.
   */
   private final TalonSRX intake;
+  private final TalonSRX intakeSlave;
 
 
   public Intake() {
     intake = new TalonSRX(RobotMap.kIntake);
+    intakeSlave = new TalonSRX(10);
+    intakeSlave.setInverted(true);
+    intakeSlave.follow(intake); 
     intake.config_kF(0,0,0);
     /*               ^ ^ ^
                      | | | Timeout in Ms

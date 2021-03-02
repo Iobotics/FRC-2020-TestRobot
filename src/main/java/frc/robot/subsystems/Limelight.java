@@ -22,13 +22,14 @@ public class Limelight extends SubsystemBase {
   NetworkTableEntry tx = table.getEntry("tx");
   NetworkTableEntry ty = table.getEntry("ty");
   NetworkTableEntry ta = table.getEntry("ta");
+  NetworkTableEntry ledMode = table.getEntry("ledMode");
 
   double x;
   double y;
   double area;
 
   public Limelight()  {
-     
+     ledMode.setNumber(1);
   }
 
   public void printValues(){

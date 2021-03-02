@@ -59,8 +59,8 @@ public class RobotContainer {
     configureButtonBindings();
     shooter.setDefaultCommand(
       new RunCommand(() -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(0)), shooter));
-    drivetrain.setDefaultCommand
-      (new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
+    //drivetrain.setDefaultCommand
+      //(new RunCommand(() -> drivetrain.setTank(-joystick1.getY(), joystick2.getY()), drivetrain));
     intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", intake.intakeVelocity()), intake));
     articulatingHood.setDefaultCommand(
       new RunCommand(() -> articulatingHood.setPower(0), articulatingHood));
@@ -81,12 +81,12 @@ public class RobotContainer {
         
     new JoystickButton(joystick1, OIConstants.kRunIntake).whileHeld(
       new StartEndCommand(
-        () -> intake.setIntake((joystick1.getZ() + 1)/2),
+        () -> intake.setIntake(0.5),
         () -> intake.setIntake(0), intake));
 
     new JoystickButton(xboxController, OIConstants.kRunShooter).whileHeld(
       new RunCommand(
-        () -> SmartDashboard.putNumber("Shooter RPM", shooter.setVelocity(SmartDashboard.getNumber("Shooter Output", 0))), shooter));
+        () -> SmartDashboard.putNumber("Shooter RPM", shooter.setPower(SmartDashboard.getNumber("Shooter Output", 0))), shooter));
 
     new JoystickButton(joystick2, OIConstants.kSetLift).whileHeld(
       new StartEndCommand(

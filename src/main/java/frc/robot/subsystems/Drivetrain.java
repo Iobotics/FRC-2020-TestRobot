@@ -35,6 +35,8 @@ public class Drivetrain extends SubsystemBase {
     leftMaster.config_kI(0, DrivetrainConstants.kI);
     leftMaster.config_kD(0, DrivetrainConstants.kD);
     leftMaster.config_kF(0, DrivetrainConstants.kF);
+
+    
   }
 
   public void config () {
